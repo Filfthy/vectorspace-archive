@@ -1,0 +1,909 @@
+AGENT X - FACTION MISSION PRESENTATION PACKS
+===========================================
+
+PURPOSE
+-------
+
+Mission mechanics are shared. The player-facing contract must not be.
+
+Every procedural mission template should have one or more FACTION PRESENTATION
+PACKS. A presentation pack controls how the same mechanical job appears on the
+contract board and how the faction reacts afterwards.
+
+The board advert tells the player what the client thinks the job is.
+The mission sections tell the engine what the job actually does.
+The routine completion message is normally system-generated and impersonal.
+A named-contact follow-up is optional and reserved for something worth saying.
+
+This separation is important. A QuickBite job and a Red Jackal job may execute
+exactly the same section chain, but they should not read like reskins of the same
+paragraph.
+
+
+CANONICAL MAIN CONTACTS
+-----------------------
+
+VOX                          Mara Venn
+Free Traders Compact         Corvella Pallis
+Orbital Security Directorate Kudo Shang
+Red Jackal Combine           Cassian Erivan-Snade
+Helix Industrial Group       Navira Derris
+QuickBite Orbital            Nyxo Malloc
+
+Routine contract completion should normally come from the organisation/system,
+not these people.
+
+
+PRESENTATION PACK DATA SHAPE
+----------------------------
+
+Recommended data shape:
+
+{
+  "presentationId": "station_delivery",
+  "faction": "quickbite",
+
+  "board": {
+    "titles": [
+      "Priority Order",
+      "Relay Delivery",
+      "Hot Run"
+    ],
+    "descriptions": [
+      "Get {cargo} to {destination}. Customer has already paid.",
+      "Take the order to {destination}. Try to keep the container attached."
+    ]
+  },
+
+  "routineComplete": {
+    "subjects": [
+      "ORDER DELIVERED",
+      "DELIVERY COMPLETE"
+    ],
+    "bodies": [
+      "Delivery confirmed at {destination}. Payment of {credits} credits has been released.",
+      "Order accepted by {destination}. Contract payment: {credits} credits."
+    ]
+  },
+
+  "personalFollowUps": [
+    {
+      "trigger": "major_encounter",
+      "chance": 0.55,
+      "contact": "nyxo_malloc",
+      "subjects": ["DUDE"],
+      "bodies": [
+        "Dude. Xenos on the approach and you still got the order there. Awesome."
+      ]
+    }
+  ]
+}
+
+The presentation pack may also contain:
+  cargo labels
+  target labels
+  destination aliases
+  board title variants
+  briefing variants
+  routine failure text
+  encounter acknowledgement fragments
+  discretionary reward text
+  contact follow-up rules
+
+Do not put section choreography here.
+Do not put faction prose in the mechanical template.
+
+
+PLACEHOLDERS
+------------
+
+Useful shared placeholders:
+
+{cargo}
+{destination}
+{origin}
+{target}
+{site}
+{route}
+{count}
+{credits}
+{rep}
+{encounter}
+{bonusCredits}
+{faction}
+
+Avoid generating prose by blindly combining tiny sentence fragments. Prefer a
+small pool of complete authored variants. The system should choose one and fill
+safe placeholders.
+
+
+MAIL LAYERS
+-----------
+
+1. BOARD ADVERTISEMENT
+
+Shown before acceptance. Faction-flavoured. Short enough to scan quickly.
+
+2. ROUTINE COMPLETION MAIL
+
+Usually automatic and impersonal. Confirms completion, payment and reputation.
+May mention a recorded encounter in factual language.
+
+Example:
+  FROM: FREE TRADERS COMPACT
+  SUBJECT: CONTRACT COMPLETE
+
+  Delivery confirmed at Relay 10. Xeno contact on approach was recorded and
+  cleared. Payment: CR 4,800. Reputation: +6.
+
+3. FAILED / ABANDONED CONTRACT REACTION
+
+Guaranteed personal mail from the faction's principal named contact whenever an
+accepted contract fails or is voluntarily abandoned. This is not a chance-based
+follow-up. The contact should be pissed off, disappointed or coldly critical of
+X's performance. Voluntary abandonment is normally treated more harshly than
+being destroyed while attempting the job.
+
+Corvella stays personal, overfamiliar and flirtatious even while angry. She may call X "sweetie" or "babe", but the voice should go beyond pet names into teasing disappointment and shameless comments about X's big or dangerous drone.
+
+Kudo has zero warmth. Failure is weakness, poor discipline or failure to finish. He stays clipped and controlled rather than bureaucratic.
+
+Cassian remains polite and highly indirect. Even when angry he prefers implication and genteel disappointment to plainly naming the crime or instruction.
+
+Navira treats failure as lost evidence, a ruined dataset or an unresolved question. Strange complications may interest her even when the mission result is bad.
+
+Nyxo is the profanity-frequency exception, but nothing stronger than “shit”. “Freaking” and “shiz” are fine. A failed QuickBite run can ramble about the workplace consequences, but the mission setup itself should stay short and conversational. His odd moral rationalisations are part of the voice. Avoid policy language such as “food security”. "They knew the risks" is a rare contractor-risk joke, not a recurring fatalistic attitude.
+
+4. OPTIONAL PERSONAL SUCCESS FOLLOW-UP
+
+Separate mail from the named contact. Only for unusual events, excellent
+performance, major bonuses, discoveries, reputation milestones or story
+progression.
+
+This is where success-side personality belongs.
+
+
+T01 - COURIER DELIVERY
+----------------------
+
+Mechanical core:
+  Carry cargo -> transit -> destination approach -> possible encounter ->
+  deposit cargo -> depart.
+
+FREE TRADERS COMPACT
+
+Board titles:
+  Relay Consignment
+  Priority Freight
+  Contract Delivery
+
+Board descriptions:
+  Deliver {cargo} to {destination}. Standard handling terms apply.
+  Carry a sealed freight consignment from {origin} to {destination}.
+  Freight transfer required to {destination}. Prompt delivery preferred.
+
+Routine completion:
+  SUBJECT: CONSIGNMENT DELIVERED
+  Delivery confirmed at {destination}. Payment of {credits} credits has been
+  released.
+
+Personal follow-up trigger: major encounter, cargo delivered despite severe
+complication, unusually fast/clean run.
+
+Corvella Pallis example:
+  "Babe, I saw the approach report. Xenos, debris and you still put the parcel on
+  the right pad. That's fronking lovely work. I've added something extra."
+
+ORBITAL SECURITY DIRECTORATE
+
+Board titles:
+  Secure Transfer
+  Evidence Transit
+  Directorate Courier Task
+
+Board descriptions:
+  Transport secured material to {destination}. Maintain custody until handoff.
+  Deliver Directorate property to {destination}. Unauthorised diversion is not
+  permitted.
+
+Routine completion:
+  SUBJECT: TRANSFER CONFIRMED
+  Custody transfer confirmed at {destination}. Contract payment: {credits}.
+
+Kudo Shang example:
+  "Hostile contact did not stop the transfer. Objective complete. Decisive work."
+
+RED JACKAL COMBINE
+
+Board titles:
+  A Small Favour
+  Private Consignment
+  Discreet Conveyance
+
+Board descriptions:
+  A sealed parcel requires discreet conveyance to {destination}. Questions are
+  neither necessary nor useful.
+  Carry a private consignment to {destination}. The fewer people who remember the
+  journey, the better.
+
+Routine completion:
+  SUBJECT: CONSIGNMENT RECEIVED
+  Receipt has been acknowledged. Agreed payment of {credits} credits has been
+  released.
+
+Cassian Erivan-Snade example:
+  "The authorities took an unfortunate interest in our little parcel. Happily, their
+  curiosity proved temporary and the parcel is now exactly where one hoped it might be."
+
+HELIX INDUSTRIAL GROUP
+
+Board titles:
+  Sample Transfer
+  Technical Consignment
+  Controlled Material Delivery
+
+Board descriptions:
+  Transfer {cargo} to the Helix receiving point at {destination}.
+  Deliver a controlled research consignment to {destination}. Container integrity
+  is required.
+
+Routine completion:
+  SUBJECT: MATERIAL RECEIVED
+  Helix receiving has confirmed intact delivery. Payment: {credits} credits.
+
+Navira Derris example:
+  "The sample arrived intact. More interestingly, the contact event produced a response
+  I cannot account for yet. I have retained the telemetry."
+
+QUICKBITE ORBITAL
+
+Board titles:
+  Priority Order
+  Hot Run
+  Relay Delivery
+
+Board descriptions:
+  Get {cargo} to {destination}. Customer has already paid.
+  Take the order to {destination}. Yes, it is still supposed to be hot.
+  Delivery to {destination}. Please do not lose the food or the drone.
+
+Routine completion:
+  SUBJECT: ORDER DELIVERED
+  Order accepted at {destination}. Payment of {credits} credits released.
+
+Nyxo Malloc example:
+  "Dude. I am not saying shooting xenos is good, but people need food and the xenos
+  were between the food and the people. So I think we are basically humanitarian now."
+
+
+T02 - PICKUP AND RETURN
+-----------------------
+
+Mechanical core:
+  Reach marked pickup -> collect -> return or continue onward -> possible
+  post-pickup encounter.
+
+FREE TRADERS
+  Board: "Recovery Collection" / "Retrieve insured cargo from {site} and return it
+  to the designated receiver."
+  Routine completion: "Recovered property received. Payment: {credits}."
+  Corvella: "Sweetie, that crate was written off yesterday. Bringing it back today
+  has made somebody in claims extremely emotional."
+
+OSD
+  Board: "Evidence Recovery" / "Recover the marked recorder from {site}. Return it
+  without unauthorised access."
+  Routine completion: "Evidence chain restored. Payment released."
+  Kudo: "Recorder secured. No contamination recorded. Good."
+
+RED JACKAL
+  Board: "Property Retrieval" / "A case belonging to an associate has become
+  inconveniently separated from its owner. Correct this."
+  Routine completion: "Property returned. Settlement released."
+  Cassian: "Possession, X, may be nine-tenths of the law, but the remaining tenth is
+  frequently armed. Splendid recovery."
+
+HELIX
+  Board: "Specimen Recovery" / "Retrieve the marked specimen container from {site}."
+  Routine completion: "Specimen received and logged."
+  Navira: "The container remained within tolerance. That matters more than the three
+  destroyed interceptors, though I suspect you found those more exciting."
+
+QUICKBITE
+  Board: "Get Our Stuff Back" / "A delivery pod is sitting at {site}. It belongs to
+  us. Bring it back."
+  Routine completion: "Company property recovered. Payment released."
+  Nyxo: "Dude, that's our good pod. Awesome."
+
+
+T03 - CLEAR THE AREA
+--------------------
+
+Mechanical core:
+  Arrive -> destroy hostile group -> clear threshold -> depart or continue.
+
+FREE TRADERS
+  Board: "Route Clearance" / "Hostile traffic is blocking {route}. Clear the route
+  for commercial use."
+  Corvella: "Babe, traffic is moving again. You have made several captains very happy."
+
+OSD
+  Board: "Hostile Suppression" / "Remove armed contacts from {site}. Civilian access
+  will resume once the area is secure."
+  Kudo: "Area secure. Civil traffic released."
+
+RED JACKAL
+  Board: "Market Correction" / "A number of competitors have mistaken persistence
+  for wisdom. Correct the misunderstanding at {site}."
+  Cassian: "There was something rotten in the state of Denmark, X, and you have
+  removed the smell most efficiently."
+
+HELIX
+  Board: "Site Protection" / "Clear hostile contacts from the Helix operating zone
+  at {site}."
+  Navira: "Operations have resumed. Downtime remained below the loss threshold."
+
+QUICKBITE
+  Board: "Route Problem" / "Drivers keep getting shot at on {route}. Make that stop."
+  Nyxo: "Dude. No one's shooting at the drivers now. That's basically perfect."
+
+
+T04 - TARGET INTERCEPT / BOUNTY
+-------------------------------
+
+Mechanical core:
+  Acquire marked target -> lock/track -> pursue -> destroy/disable -> exit.
+
+FREE TRADERS
+  Board: "Pirate Intercept" / "The marked raider has attacked multiple Compact
+  freighters. Intercept it."
+  Corvella: "That grint has cost us a fortune. Had. Past tense. Lovely."
+
+OSD
+  Board: "Priority Intercept" / "Locate and stop target {target}. Target marker will
+  remain available once acquired."
+  Kudo: "Target neutralised. Bounty authorised."
+
+RED JACKAL
+  Board: "A Personal Correction" / "An individual called {target} has mistaken our
+  patience for weakness. Demonstrate the distinction."
+  Cassian: "Our friend crossed the Rubicon. You have very kindly sent him back across
+  it in pieces."
+
+HELIX
+  Board: "Prototype Recovery Denial" / "A stolen Helix carrier must not reach its
+  buyer. Intercept {target}."
+  Navira: "Prototype telemetry terminated with the carrier. Not ideal. Acceptable."
+
+QUICKBITE
+  Board: "Unpaid Order" / "Pirate dudes didn't pay for their pizza. Target is marked."
+  Nyxo: "Dude, I am not super into murder, but people die if they do not get food. Those guys are stopping the food. I think that makes us the good guys."
+
+
+T05 - ESCORT / CONVOY DEFENCE
+-----------------------------
+
+FREE TRADERS
+  Board: "Convoy Cover" / "Escort Compact freight through {route}."
+  Corvella: "Every hull arrived. Babe, that's the kind of boring I absolutely adore."
+
+OSD
+  Board: "Protected Transit" / "Escort the designated transport to {destination}."
+  Kudo: "Protected asset arrived intact."
+
+RED JACKAL
+  Board: "Accompany Our Friends" / "A transport requires company through {route}.
+  Discourage unwanted introductions."
+  Cassian: "The caravan arrived unmolested. Cicero would have approved, though he was
+  notoriously difficult to please."
+
+HELIX
+  Board: "Research Convoy" / "Protect the marked Helix transport during transit."
+  Navira: "No research units were lost. This materially improves the week's outlook."
+
+QUICKBITE
+  Board: "Catering Convoy" / "Three vans. One very large order. Keep the dudes alive."
+  Nyxo: "All three made it. Dude, that's practically professionalism."
+
+
+T06 - ASTEROID CLEARANCE
+------------------------
+
+FREE TRADERS
+  Board: "Lane Clearance" / "Clear {count} hazardous asteroids from {route}."
+  Corvella: "The lane is open again. Sweetie, freight captains everywhere salute you."
+
+OSD
+  Board: "Navigation Hazard Removal" / "Destroy {count} marked hazards."
+  Kudo: "Hazard count reduced to safe tolerance."
+
+RED JACKAL
+  Board: "Open the Road" / "A route of some commercial interest is cluttered with
+  rocks. Remove the rocks."
+  Cassian: "Alexander had the Gordian knot. You, X, were given geology. Both yielded."
+
+HELIX
+  Board: "Resource Access" / "Clear the designated extraction corridor."
+  Navira: "Mining access restored. Fragment distribution is within forecast limits."
+
+QUICKBITE
+  Board: "Too Many Rocks" / "The delivery route is full of rocks. Seriously. Clear it."
+  Nyxo: "Dude. Much less rock now. Awesome."
+
+
+T07 - SALVAGE / DERELICT RECOVERY
+---------------------------------
+
+FREE TRADERS
+  Board: "Insured Recovery" / "Recover the marked cargo from the derelict at {site}."
+  Corvella: "Claims was ready to pay out. You have ruined someone's afternoon in the
+  best possible way."
+
+OSD
+  Board: "Recorder Recovery" / "Retrieve the marked flight recorder."
+  Kudo: "Recorder secured. Analysis pending."
+
+RED JACKAL
+  Board: "Lost Property" / "Something valuable was misplaced at {site}. We know where
+  it is. Kindly ensure nobody else acquires it first."
+  Cassian: "Finders keepers is a charming doctrine until one owns the thing being found."
+
+HELIX
+  Board: "Instrument Recovery" / "Recover Helix equipment from the marked wreck."
+  Navira: "Instrument package received. Damage is less extensive than projected."
+
+QUICKBITE
+  Board: "Stolen Pod" / "Some grints stole a QuickBite pod and then crashed. Bring the
+  pod back."
+  Nyxo: "Dude. They stole a food pod and crashed. Natural consequences."
+
+
+T08 - SURFACE STRIKE / SURFACE SERVICE
+--------------------------------------
+
+OSD
+  Board: "Surface Action" / "Proceed to {site} and neutralise the marked installation."
+  Kudo: "Surface objective destroyed."
+
+RED JACKAL
+  Board: "Groundside Adjustment" / "A facility at {site} has become objectionable.
+  Make it less permanent."
+  Cassian: "The edifice has fallen. Ozymandias would, I think, recognise the mood."
+
+HELIX
+  Board: "Field Service" / "Reach the Helix site at {site} and complete the marked
+  service objective."
+  Navira: "Field task confirmed. Return telemetry is usable."
+
+FREE TRADERS
+  Board: "Emergency Ground Delivery" / "Deliver critical freight to {site}."
+  Corvella: "You got it there. I do not care what the road looked like afterwards."
+
+QUICKBITE
+  Board: "Groundside Order" / "Somebody ordered food to {site}. Yes, that site."
+  Nyxo: "Dude, why do people live there? Anyway, delivered."
+
+
+T09 - FOREST RUN / FOREST PURSUIT
+---------------------------------
+
+OSD
+  Board: "Forest Intercept" / "Pursue the marked contact through the low-level route."
+  Kudo: "Target cleared before leaving the forest zone."
+
+RED JACKAL
+  Board: "A Short Drive" / "Our quarry is using the forest lanes. Follow. Conclude."
+  Cassian: "A merry chase through the woods, X. Birnam itself could scarcely have been
+  more obliging."
+
+HELIX
+  Board: "Canopy Route Survey" / "Traverse the marked forest corridor and inspect the
+  designated contact/site."
+  Navira: "Route telemetry received. The indigenous fauna appear increasingly hostile."
+
+FREE TRADERS
+  Board: "Forest Courier Route" / "Carry the consignment through the marked forest lane."
+  Corvella: "Babe, those trees give me anxiety and I was not even there."
+
+QUICKBITE
+  Board: "Forest Delivery" / "Take the order through the forest lanes. Hornets have
+  been a thing lately."
+  Nyxo: "Dude. Giant bugs, glowing trees, food still delivered. That's a shift."
+
+
+T10 - INDUSTRIAL CORRIDOR / BUNKER RUN
+--------------------------------------
+
+OSD
+  Board: "Installation Raid" / "Enter the marked installation and complete the
+  designated strike objective."
+  Kudo: "Internal objective completed. Facility response degraded."
+
+RED JACKAL
+  Board: "Inside Work" / "There is something within {site} we would prefer not to
+  remain there."
+  Cassian: "You have entered the labyrinth and, unlike Theseus, required no string."
+
+HELIX
+  Board: "Internal Recovery" / "Enter the facility and recover the marked Helix asset."
+  Navira: "Recovered asset received. Corridor telemetry was unexpectedly useful."
+
+FREE TRADERS
+  Board: "Facility Recovery" / "Reach the internal receiving point and recover Compact
+  property."
+  Corvella: "Who puts a receiving bay at the end of that corridor? Anyway. Beautiful work."
+
+QUICKBITE
+  Board: "Internal Delivery" / "Yes, the customer is inside the bunker. No, I don't know why."
+  Nyxo: "Dude. They tipped. I take back everything I said."
+
+
+T11 - TUNNEL COURIER / INTERNAL PICKUP
+--------------------------------------
+
+FREE TRADERS
+  Board: "Internal Transfer" / "Deliver {cargo} to the marked internal receiver."
+  Corvella: "Package signed for. No one asked why the loading bay is underground."
+
+OSD
+  Board: "Secure Internal Courier" / "Carry the sealed package to the designated
+  internal handoff point."
+  Kudo: "Internal handoff confirmed."
+
+RED JACKAL
+  Board: "Through the Back Door" / "Take a parcel into {site}. The conventional entrance
+  is, regrettably, conventional."
+  Cassian: "Sub rosa, X. Beneath the rose, beneath the ground, and entirely satisfactory."
+
+HELIX
+  Board: "Component Transfer" / "Deliver the component to the internal Helix receiver."
+  Navira: "Component installed. Your delivery timing prevented a longer shutdown."
+
+QUICKBITE
+  Board: "Bunker Lunch" / "Food delivery. Inside a bunker. Dude, just follow the marker."
+  Nyxo: "They ordered extra sauce after you left. People are unbelievable."
+
+
+T12 - XENO NEST INSERTION
+-------------------------
+
+OSD
+  Board: "Nest Sterilisation" / "Carry the supplied neutralising payload into the marked
+  xeno nest and deploy it at the designated chamber."
+  Routine completion: "Payload deployment confirmed. Nest activity is declining."
+  Kudo: "Sterilisation confirmed. You were not expected to enjoy that route."
+
+HELIX
+  Board: "Controlled Xeno Suppression" / "Deploy the supplied biological control agent
+  at the marked chamber. Preserve telemetry where possible."
+  Navira: "The agent dispersed correctly. The response data are unusually valuable."
+
+RED JACKAL
+  Board: "Pest Control" / "A nest has grown across a route of considerable commercial
+  interest. Deliver our remedy to its heart."
+  Cassian: "Carthago delenda est, X. In this instance Carthage had six legs and spat acid."
+
+FREE TRADERS
+  Board: "Route Sterilisation" / "Deploy the supplied payload inside the nest obstructing
+  {route}."
+  Corvella: "Sweetie, I am never calling that 'route maintenance' again."
+
+QUICKBITE
+  Board: "Health & Safety" / "There's a xeno nest under a delivery route. Take this stuff
+  inside and make it less nest-shaped."
+  Nyxo: "Dude. Corporate says I can't call it bug spray. Whatever. Awesome job."
+
+
+T13 - XENO NEST EXTRACTION
+--------------------------
+
+HELIX
+  Board: "Xeno Specimen Recovery" / "Enter the marked nest and retrieve {target} from
+  the designated chamber."
+  Navira: "Specimen integrity is exceptional. Please do not ask what it is worth."
+
+OSD
+  Board: "Lost Recorder Recovery" / "A recorder from a lost Directorate craft is emitting
+  from inside the nest. Recover it."
+  Kudo: "Recorder recovered. The crew record will be handled separately."
+
+RED JACKAL
+  Board: "Treasure in the Hive" / "Something of ours has found its way into a xeno nest.
+  The xenos have no title to it. Retrieve it."
+  Cassian: "Orpheus descended for Eurydice. You descended for a box. Happily, the box was
+  considerably more valuable."
+
+FREE TRADERS
+  Board: "Cargo Recovery - Xeno Zone" / "Recover the marked insured cargo from the nest."
+  Corvella: "Babe. The insurer owes you a drink and possibly a new nervous system."
+
+QUICKBITE
+  Board: "Get the Cooler Back" / "A delivery cooler is inside the nest. Don't ask. It is
+  expensive."
+  Nyxo: "Dude. That's the premium cooler. I knew we'd see it again."
+
+
+T14 - PATROL / UNKNOWN CONTACT
+------------------------------
+
+OSD
+  Board: "Sector Patrol" / "Traverse the marked checkpoints and report any contacts."
+  Kudo: "Patrol complete. Contact log received."
+
+FREE TRADERS
+  Board: "Route Check" / "Run the marked commercial route and confirm conditions."
+  Corvella: "Route report received. Quiet is good. Quiet makes money."
+
+HELIX
+  Board: "Field Survey" / "Traverse the marked survey points and return sensor data."
+  Navira: "Survey data received. One anomaly requires further examination."
+
+RED JACKAL
+  Board: "Have a Look" / "Travel the marked route and observe. Intervene only if events
+  become interesting."
+  Cassian: "All the world's a stage, X, and occasionally one is paid simply to watch the
+  scenery."
+
+QUICKBITE
+  Board: "Driver Check" / "Three drivers keep disappearing on this route. Go see why."
+  Nyxo: "So THAT'S why the drivers keep disappearing. Yeah. That tracks."
+
+
+ENCOUNTER-SPECIFIC FOLLOW-UP
+----------------------------
+
+Personal correspondence can be selected using both the mission presentation
+and the encounter result.
+
+Examples:
+
+Free Traders + xeno swarm:
+  Corvella: "Babe, apparently the station was under xeno attack when you arrived.
+  You cleared them and still made the handoff. That's fronking good work."
+
+OSD + pirate blockade:
+  Kudo: "Additional hostile contacts were not in the tasking. They are now in the
+  incident record. Bonus authorised."
+
+Red Jackal + customs/security:
+  Cassian: "The customs authorities arrived like Banquo's ghost: uninvited, tiresome
+  and impossible to ignore. You handled the apparition admirably."
+
+Helix + xeno encounter:
+  Navira: "Your contact telemetry has been retained for research analysis. The combat
+  was incidental; the data were not."
+
+QuickBite + pirates:
+  Nyxo: "Pirates again? Dude. If they wanted lunch they could have ordered."
+
+QuickBite + xenos:
+  Nyxo: "Xenos on the route. Awesome. Corporate will call that an 'operational variance'."
+
+
+DISCRETIONARY REWARD LANGUAGE
+------------------------------
+
+The reward mechanic may remain generic, but the EMAIL PRESENTING IT IS PERSONAL
+and must always use the faction's canonical named contact and established voice.
+Generic "Procurement has attached..." / "Stores agreed..." prose is not acceptable
+for a named-contact reward message.
+
+The shared, mission-independent reward mail packs live in `mission-templates.js` as
+`AgentXMissionData.rewardMail`, keyed by faction. They currently provide authored
+variants for:
+  credits
+  free item
+  supplier discount
+
+This data is deliberately beside the mission templates because it is presentation
+layer material. Campaign code owns the actual reward transaction; the template data
+owns who says it and how it sounds. Existing saved generic reward messages using the
+standard reward template IDs should reconstruct through these character packs.
+
+Corvella:
+  Deliberately unprofessional, overfamiliar and flirtatious. "Sweetie" / "Babe"
+  remain natural, but she also shamelessly admires X's big/dangerous drone and
+  treats rewards like personal favours. She can openly acknowledge that her
+  correspondence is inappropriate. Never gender Agent X.
+
+Kudo:
+  Very concise and procedural. An authorised reward means more because he wastes no words.
+
+Cassian:
+  Elaborate, cultivated and slightly theatrical. Money/equipment can become a historical,
+  literary or patronage analogy without turning into fake archaic English.
+
+Navira:
+  Analytical and detached. She justifies rewards through useful output, telemetry,
+  probability or operational efficiency rather than sentiment.
+
+Nyxo:
+  Clerks-style foul-mouthed Dispatch voice. He can swear heavily and treat the fact that
+  Corporate/Stores/Procurement actually approved something useful as absurd in itself.
+
+
+DESIGN RULE
+-----------
+
+A mission template is not complete for procedural use until it has:
+
+1. Mechanical section data.
+2. At least one faction presentation pack.
+3. Board title and board description variants.
+4. Routine completion/failure text.
+5. Optional personal follow-up rules.
+6. Encounter acknowledgement rules where appropriate.
+7. Reward flavour where appropriate.
+
+This is what turns a small number of reusable mechanics into a large contract
+board rather than a list of visibly duplicated missions.
+
+
+LIVE STATION-DELIVERY PRESENTATION PACK
+---------------------------------------
+
+The live `station_delivery` template uses the existing groundside pickup -> launch ->
+Relay 10 / Pad 03 delivery chain. All five ordinary client factions may wrap it.
+
+Free Traders / Corvella Pallis
+  Freight, spares and merchant consignments. Corvella writes adverts and personal
+  mail like an overfamiliar flirt, not a professional coordinator. Success is
+  admiring; failure is teasingly disappointed; abandonment is personally affronted.
+  Never gender X.
+
+OSD / Kudo Shang
+  Evidence, security stores and authorised equipment. Zero warmth. Hardline warrior-culture
+  language about discipline, strength and finishing the job. Praise is minimal and clipped.
+
+Red Jackal / Cassian Erivan-Snade
+  Private cases and discreet equipment. Highly indirect criminal framing. He implies that
+  ownership, function or continued survival may change without plainly stating the crime.
+
+Helix / Navira Derris
+  Instruments, prototypes and samples. Analytical and intensely curious. Strange telemetry
+  may interest her more than the danger that produced it.
+
+QuickBite / Nyxo Malloc
+  Food, catering and franchise stock. Nyxo swears casually, but nothing stronger than “shit”.
+  “Freaking” and “shiz” are fine. His core joke is workplace absurdity plus strange moral rationalisation for violent jobs.
+  “They knew the risks” remains a rare Clerks Death-Star contractors joke about hazardous
+  employment. It is not generic indifference to death.
+
+Station xeno encounter
+  Routine success mail from the organisation acknowledges the unexpected infestation.
+  Named personal follow-up becomes more likely and should use encounter-specific copy.
+  The encounter is still not guaranteed and should never be advertised as the contracted
+  objective.
+
+Failure / abandonment
+  Both always produce a named-contact response. Abandonment is generally treated more
+  harshly than destruction/failure while genuinely attempting the job.
+
+CIVILIAN TRAFFIC MISCONDUCT
+---------------------------
+
+For any template that places the player among civilian traffic, presentation is incomplete
+until it covers civilian incidents as an outcome dimension.
+
+Use separate language for:
+  accidental collision / traffic contact
+  deliberate weapons fire against civilian vehicles
+
+Deliberate fire should be treated more seriously. Successful delivery does not erase it:
+settlement and reputation may be reduced or cancelled, gifts are suppressed, and the
+canonical named contact sends a guaranteed conduct mail instead of the ordinary clean-job
+congratulation.
+
+If the player subsequently fails or abandons the mission, fold the civilian incident into
+the same named-contact failure/abandonment mail as an additional grievance.
+
+Character rule examples:
+  Corvella: remains overfamiliar and flirtatious in form while clearly angry about the conduct; teasing disappointment is preferred to generic corporate scolding.
+  Kudo: terse zero-tolerance professional language.
+  Cassian: frames civilian fire as conspicuous, vulgar failure of discretion.
+  Navira: clinically identifies the operator/target-classification failure.
+  Nyxo: mild casual profanity and workplace logic. He may explicitly reject the contractor-risk
+        argument for commuters: they did not accept a hazardous orbital contract merely by
+        driving to work.
+
+LIVE TEMPLATE PACK: PENTHOUSE DELIVERY (2026-09-07)
+---------------------------------------------------
+The penthouse mission is now faction wrapped rather than Red-Jackal-only.
+
+Free Traders / Corvella:
+  Private freight to a high-rise recipient. Pirates are the most common
+  complication. Corvella remains personal and inappropriately flirtatious even while angry; "Sweetie" and "Babe"
+  still appear in failure/civilian reprimands.
+
+OSD / Kudo:
+  Secure evidence/equipment handoff. Rogue drones are the most common
+  complication. Correspondence is concise and procedural.
+
+Red Jackal / Cassian:
+  Sealed/private parcel. Customs remains the signature encounter, but pirates,
+  rogue drones, xenos and a quiet run are all possible. Cassian treats
+  complications as unwanted additions to the performance.
+
+Helix / Navira:
+  Research sample/prototype delivery. Rogue drones and xenos are weighted most
+  heavily. Navira values useful telemetry without forgetting the actual job.
+
+QuickBite / Nyxo:
+  Penthouse catering / food delivery. Xenos are strongly weighted, supporting
+  the recurring "they can smell the food" joke. Nyxo remains the profanity-frequency
+  exception, but never goes stronger than “shit”. Pirates prompt the obvious "they could have
+  ordered" response.
+
+All five wrappers inherit the standard failed/abandoned personal-mail rule and
+the civilian-traffic conduct rule.
+
+LIVE TEMPLATE PACK: HOSTILE-GROUP DESTRUCTION (2026-09-07)
+----------------------------------------------------------
+The pure fighter contract uses faction-specific target pools. Do not use one universal list
+and then randomly claim that every organisation wants every possible group dead.
+
+Free Traders / Corvella Pallis
+  Typical targets: pirates, armed extortion crews, cargo raiders and mercenaries blocking
+  a trade route. Motives are route security, retaliation and protection of upcoming
+  merchant traffic. Corvella's personal mail remains overfamiliar and flirtatious even when angry.
+
+OSD / Kudo Shang
+  Typical targets: wanted pirates, armed smuggler escorts that attacked patrols, rogue
+  security drones, outlaw militias and hostile xeno contacts. Motives are law enforcement,
+  public safety and containment. Do not casually turn normal faction traffic into OSD
+  enemies merely for variety.
+
+Red Jackal / Cassian Erivan-Snade
+  Typical targets: bounty hunters, rival syndicate fighters, hostile mercenaries and
+  breakaway/betraying crews. Motives include protection, commercial competition,
+  retaliation and betrayal. This is the broadest morally dubious pool, but routine Jackal
+  jobs should not imply open war with OSD or every other faction.
+
+Helix / Navira Derris
+  Typical targets: rogue industrial drones, research thieves, armed scavenger raiders,
+  competitor-hired mercenaries and hostile xenoforms near research operations. Motives are
+  containment, proprietary security and protection of research/industrial sites.
+
+QuickBite / Nyxo Malloc
+  Typical targets: pirates/hijackers preying on couriers, rogue delivery drones and xenos
+  following food traffic. The joke is that a catering firm keeps acquiring an absurd
+  anti-piracy problem; QuickBite does NOT order assassinations of rival takeaway companies.
+  Nyxo may swear heavily in all success/failure/abandonment responses.
+
+The target group is already armed/hostile when the combat contract begins. Do not use the
+pure destroy template as a routine way to commission attacks on obvious civilian traffic.
+A later destroy-then-tractor-package variant should reuse this template's target/motive
+logic but is NOT part of the current pure-destruction implementation.
+
+
+LIVE TEMPLATE PACK: MARKED ASTEROID CLEARANCE (2026-09-07)
+----------------------------------------------------------
+The asteroid-clearance template treats the field as environment and the marked subset as
+the actual job. Faction presentation therefore explains WHY these particular tracked rocks
+matter rather than pretending the rest of the belt does not exist.
+
+Free Traders / Corvella Pallis
+  Shipping-lane collision hazards, mining-blast fragments and merchant approach debris.
+  Motives are route reopening, convoy protection and ordinary traffic safety.
+
+OSD / Kudo Shang
+  Designated navigation hazards, exclusion-zone debris and tracked fragmentation events.
+  Motives are public safety, controlled-traffic release and collision prevention.
+
+Red Jackal / Cassian Erivan-Snade
+  Obstructions on discreet routes, deliberate debris placed across commercial passages,
+  and hazards compromising escape/transit corridors. Cassian treats geology as an
+  inconvenient participant in commerce rather than inventing an unrelated enemy faction.
+
+Helix / Navira Derris
+  Survey hazards, extraction fragments and volatile-rich bodies threatening field equipment.
+  Motives are industrial safety, measurement integrity and restoration of acceptable
+  operating envelopes.
+
+QuickBite / Nyxo Malloc
+  Courier-lane fragmentation, delivery-route debris and impact hazards that have finally
+  become expensive enough for Corporate/Insurance to care about. Nyxo may swear heavily;
+  the humour is that a food company has somehow acquired an asteroid-demolition problem.
+
+All five packs use the canonical success/failure/abandonment correspondence rules. There is
+no invented hostile group in this template: the antagonist is the identified hazard set.

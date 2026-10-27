@@ -1,0 +1,594 @@
+AGENT X / STARSTRIKE
+POSSIBLE GAME DIRECTION
+=======================
+
+CORE IDEA
+---------
+Move the campaign away from every contract being a fully scripted sequence.
+Contracts still define the job, destination and reward, but travelling to and
+operating around locations can generate random encounters. The player should
+never be certain that a routine delivery, patrol or collection will stay routine.
+
+The important distinction is:
+
+  CONTRACT = why Agent X is there.
+  ENCOUNTER = what happens while Agent X is there.
+
+This lets the same locations and mission types remain interesting without having
+to author a separate scripted mission for every combination.
+
+
+ENCOUNTER PRINCIPLES
+--------------------
+* Encounters are drawn from tables appropriate to the current location and job.
+* Most visits should NOT contain a major encounter. Routine flights are useful
+  because they make danger less predictable.
+* Some encounters are combat, some are hazards, some are opportunities and some
+  are simply unusual things to see.
+* Encounters can alter the route or create a short secondary objective, but they
+  should not turn every contract into a long multi-stage mission.
+* Reuse normal game systems wherever possible rather than creating special fake
+  sequences.
+* The navigation computer is the player's information source. There is no need
+  for constant conversations with NPCs or stations.
+* Messages should therefore be very short and functional, for example:
+
+    PIRATE BLOCKADE DETECTED
+    UNKNOWN CONTACTS
+    ROGUE DRONES ACTIVE
+    COLLISION HAZARD
+    DISTRESS BEACON DETECTED
+    DELIVERY APPROACH CLEAR
+
+* An encounter should normally make sense from what the player can see plus one
+  or two short nav-computer messages. Avoid paragraphs of exposition.
+
+
+SPACE-STATION APPROACH ENCOUNTERS
+---------------------------------
+Possible events while arriving at or departing from a station:
+
+PIRATE BLOCKADE
+  Pirates are attacking or extorting traffic around the station.
+  NAV: PIRATE BLOCKADE DETECTED
+  NAV: CLEAR HOSTILES
+
+MERCENARY INTERDICTION
+  Organised fighters are preventing craft reaching the station. They may have
+  been hired by a rival faction or corporation, but this does not need explaining
+  during the encounter.
+  NAV: MERCENARY INTERCEPTORS
+
+STATION UNDER ATTACK
+  A raid is already in progress when Agent X arrives.
+  NAV: HOSTILES NEAR STATION
+
+ROGUE DEFENCE DRONES
+  Automated station/security craft have malfunctioned or are following obsolete
+  orders.
+  NAV: ROGUE DRONES ACTIVE
+
+ALIEN SWARM / SPACE BUGS
+  Non-human creatures are clustered around station power systems, lights, waste
+  heat or docking structures. Their movement should be unlike fighter craft.
+  They could lunge, spit projectiles or attempt collisions rather than dogfight.
+  NAV: XENO SWARM DETECTED
+
+ALIEN RAIDERS
+  Intelligent non-human attackers rather than wildlife.
+  NAV: ALIEN RAIDERS DETECTED
+
+UNKNOWN CONTACTS
+  Useful for the player's first encounter with a new enemy type. Do not identify
+  them until they have been encountered before.
+  NAV: UNKNOWN CONTACTS
+  NAV: HOSTILE RESPONSE
+
+BOUNTY INTERCEPTORS
+  The attackers are after Agent X rather than the cargo or station.
+  NAV: BOUNTY INTERCEPTORS
+
+DEBRIS FIELD
+  A recent collision or battle has left wreckage moving around the approach.
+  Primarily an avoidance challenge rather than combat.
+  NAV: DEBRIS HAZARD
+
+DISABLED CRAFT / DISTRESS BEACON
+  Optional diversion. Investigating might give a small reward, information,
+  salvage, an ambush, or nothing useful.
+  NAV: DISTRESS BEACON DETECTED
+
+
+OPEN-SPACE ENCOUNTERS
+---------------------
+PIRATE AMBUSH
+  Fighters emerge during an otherwise routine transit.
+
+PATROL SCAN
+  A faction patrol approaches. High reputation may mean nothing happens; poor
+  reputation or illegal cargo could change the event later if such systems are
+  added.
+
+DERELICT
+  A drifting ship or cargo pod appears off the route. The player can ignore it
+  or investigate.
+
+SALVAGE FIELD
+  A small optional collection opportunity, possibly with danger attached.
+
+ASTEROID SURGE
+  A dense moving cluster crosses the route and briefly changes the flight into
+  an avoidance/shooting challenge.
+
+MINEFIELD / OLD ORDNANCE
+  Abandoned weapons or proximity mines occupy part of the route.
+
+ALIEN MIGRATION
+  A group of space creatures crosses the player's path. They need not always be
+  hostile unless disturbed.
+
+FIGHT IN PROGRESS
+  Two NPC groups are already fighting. The player can pass through, help one
+  side, or become involved accidentally. This could later tie into reputation.
+
+PURSUED CIVILIAN
+  A civilian craft is being chased. Helping is optional and can create a small
+  reputation/reward event.
+
+NAVIGATION ANOMALY
+  Sensor interference, unusual energy or a temporary navigation disruption.
+  Mostly atmosphere unless expanded into a larger system later.
+
+
+PLANET / SURFACE ENCOUNTERS
+---------------------------
+GROUND AMBUSH
+  Turrets, vehicles or walkers activate near the route.
+
+AIR INTERCEPTORS
+  Fighters or drones appear during low-level flight.
+
+HOSTILE CHECKPOINT
+  A defended route must be crossed or cleared.
+
+CIVILIAN TRAFFIC SURGE
+  Heavy flying-car traffic creates a navigation hazard without necessarily
+  involving combat.
+
+CRASH SITE
+  Wreckage beside the route may contain salvage, survivors, hostiles or nothing.
+
+ROGUE INDUSTRIAL DRONES
+  Mining/construction machines have become dangerous around a site.
+
+CREATURE ATTACK
+  Ground or flying alien life attacks while crossing wilderness.
+
+WEATHER / VISIBILITY EVENT
+  Dust, electrical interference or another local hazard could reduce visibility
+  or complicate navigation if such effects suit the final visual style.
+
+UNEXPECTED DEFENCES
+  A normally routine destination has temporary guns, drones or barriers active.
+
+
+CITY ENCOUNTERS
+---------------
+TRAFFIC INCIDENT
+  Congested or erratic flying-car traffic creates a brief obstacle challenge.
+
+POLICE / SECURITY PURSUIT
+  Security craft chase someone else through the player's route.
+
+GANG / PIRATE ATTACK
+  Local hostile flyers appear between buildings.
+
+BUILDING FIRE / EMERGENCY ZONE
+  A blocked route or emergency cordon forces a slight diversion.
+
+ROGUE DELIVERY DRONES
+  Small autonomous craft create a swarm hazard.
+
+ASSASSINATION / BOUNTY AMBUSH
+  A rare targeted attack on Agent X among city structures.
+
+
+ASTEROID / INDUSTRIAL LOCATION ENCOUNTERS
+-----------------------------------------
+MINING CLAIM DISPUTE
+  Rival armed craft are already present.
+
+AUTOMATED MINING DRONES
+  Normally harmless machinery has gone rogue or misidentifies the player.
+
+ROCKFALL / FRAGMENT FIELD
+  Explosions or mining activity create moving debris.
+
+PIRATE SALVAGERS
+  Pirates are stripping equipment and react to the player's arrival.
+
+CREATURE NEST
+  Space bugs or other organisms inhabit cavities in an asteroid or structure.
+
+UNSTABLE REACTOR / MACHINERY
+  An environmental danger rather than an enemy encounter.
+
+
+DELIVERY-SPECIFIC POSSIBILITIES
+-------------------------------
+A delivery does not need to be about the cargo every time. Possible complications:
+
+* Nothing happens: normal collection and delivery.
+* Hostiles happen to be at the destination.
+* A blockade prevents access.
+* Someone specifically wants the delivery stopped.
+* Someone specifically wants Agent X stopped.
+* The destination is already under attack.
+* A route hazard appears during transit.
+* The destination's automated defences are malfunctioning.
+* A distress event offers an optional diversion.
+* The cargo itself causes trouble only on rare specialist contracts.
+
+This keeps the basic delivery system reusable without making every cargo job feel
+like the same scripted story.
+
+
+ENCOUNTER SELECTION
+-------------------
+A future encounter generator could consider:
+
+  LOCATION TYPE
+    deep space / station / planet / city / asteroid / industrial site / tunnel
+
+  CONTRACT TYPE
+    delivery / collection / destroy / escort / patrol / investigation / etc.
+
+  FACTION / REPUTATION
+    changes who is likely to attack and who may assist.
+
+  PLAYER LEVEL
+    affects enemy number/type rather than simply multiplying health.
+
+  RECENT EVENTS
+    avoid immediately repeating the same encounter type.
+
+  RARITY
+    routine events common; strange alien or major battle events uncommon.
+
+  DIFFICULTY
+    encounter intensity can be separate from contract difficulty.
+
+A simple weighted table is probably enough initially. Do not build an elaborate
+procedural-story system before the basic encounters prove fun.
+
+
+VARIATION WITHIN AN ENCOUNTER
+-----------------------------
+Even the same encounter label can vary:
+
+PIRATE BLOCKADE might be:
+  * two light fighters;
+  * one heavy fighter plus two light fighters;
+  * several small drones;
+  * pirates already fighting station defenders;
+  * attackers that flee after losing their leader.
+
+XENO SWARM might be:
+  * several small creatures;
+  * one large creature and several small ones;
+  * creatures attached to station structures;
+  * a swarm that initially ignores the player until approached.
+
+This gives more mileage than creating dozens of nearly identical named missions.
+
+
+NON-COMBAT RANDOM EVENTS
+------------------------
+Important: random encounter must not become synonymous with random battle.
+Possible non-combat events:
+
+* derelict or wreck to inspect;
+* salvage opportunity;
+* harmless alien life;
+* spectacular capital ship/freighter passing nearby;
+* emergency traffic;
+* debris hazard;
+* navigation anomaly;
+* civilian convoy;
+* another drone completing its own delivery;
+* faction patrol that simply passes by;
+* abandoned cargo that may or may not be worth collecting.
+
+These make the world feel active while preserving the impact of actual attacks.
+
+
+WORLD FEEL
+----------
+The aim is for Agent X to feel as though missions take place in a world that is
+already doing things independently of the player. The player accepts a simple job,
+but the route and destination are not guaranteed to be sterile mission arenas.
+
+A routine station delivery might therefore be:
+
+  pick up package
+  fly to station
+  no incident
+  deliver package
+  leave
+
+or on another playthrough:
+
+  pick up package
+  fly to station
+  PIRATE BLOCKADE DETECTED
+  short battle
+  approach clears
+  deliver package
+  leave
+
+or:
+
+  pick up package
+  fly to station
+  UNKNOWN CONTACTS
+  alien creatures around station
+  survive/clear approach
+  deliver package
+  leave
+
+The contract remains understandable. The encounter supplies surprise.
+
+
+DESIGN CAUTION
+--------------
+Do not make every random event compulsory. Too many interruptions would make the
+player dread ordinary travel. Routine missions and quiet stretches are part of
+what makes an unexpected event effective.
+
+Likewise, avoid long text explanations. The visual situation plus concise nav
+messages should do almost all the work.
+
+
+CURRENT MAIN STORY ARC — VOX / MARA VENN
+-----------------------------------------
+Mara Venn / VOX is the spine of the main story. Other faction contacts are
+important specialists and sources, but they should not take over the narrative
+for long stretches. The normal rhythm is:
+
+  MARA / VOX -> specialist contact -> useful discovery -> back to MARA / VOX
+
+The story should now move toward a visible ending rather than continually opening
+new mysteries. After MISSING MANIFEST there should be only a small number of
+substantial story missions before the factory finale.
+
+UNDERLYING TRUTH
+  The old-war rogue military drones are real autonomous remnants. Their obsolete
+  patriotism programming, self-replication and automated factories already existed.
+  They have not suddenly become evil because of a new mastermind.
+
+  However, an intelligent agent has found surviving parts of that network and is
+  deliberately reinvigorating them: locating dormant command nodes and factories,
+  supplying materials, recovering military authentication hardware, redirecting
+  priorities and experimenting with improvements.
+
+  The antagonist is NOT motivated by ordinary profit. Exact ideology/name can be
+  decided later, but the required character is some combination of terrorist,
+  ideological extremist and psychopathic misanthrope: someone willing or eager to
+  unleash the obsolete war machine against present civilisation. They may regard
+  the drones as purer, more disciplined or more deserving than the people who
+  abandoned them, but this should not become a long political tract.
+
+  The rogue network remains partly autonomous. The antagonist is exploiting and
+  steering a dangerous machine system, not personally remote-controlling every
+  fighter.
+
+  Working underworld alias/name: TBD. Do not lock this until the character voice
+  and motive are final.
+
+STORY POSITION — MISSING MANIFEST
+  The Free Traders Missing Manifest mission is the point where the investigation
+  stops being only strange old-war activity and acquires a modern supply trail.
+  Corvella's recovered flight-recorder/manifest evidence shows that the carrier
+  made an undeclared transfer and that part of its cargo vanished into channels
+  VOX cannot trace directly.
+
+  Mara remains the main investigator. The next move is hers: she needs somebody
+  who understands illicit procurement and can identify who is buying through
+  criminal or deniable channels.
+
+REMAINING ARC — KEEP IT TIGHT
+
+1. RED JACKAL / CASSIAN — THE FAVOUR
+  Mara sends Agent X to Cassian Erivan-Snade because he can trace purchases,
+  shell carriers and people who deliberately avoid legitimate records.
+
+  Cassian can find the information, but he wants a favour first. Agent X must
+  deliver an illicit package to a client in the existing city penthouse mission.
+  Customs drones intercept the flight. The cargo cannot be inspected or seized,
+  so the player must destroy the Customs drones, continue to the city, enter the
+  penthouse receiving lounge, deliver the package, turn around and leave.
+
+  This should feel like a real moral/criminal step: Cassian has put X in a position
+  where completing the favour means shooting enforcement drones. He treats the
+  situation far more casually than Mara would.
+
+  Once the favour is complete Cassian keeps his word. His value is not technical
+  expertise but knowing what suspicious buying looks like. He finds a buyer/agent
+  who has been acquiring old-war command hardware, industrial fabrication material
+  and specialist biological-containment equipment through fronts and intermediaries.
+
+  Cassian recognises that this does not look like normal smuggling or resale. The
+  buyer spends heavily, does not sell material back into the market and appears to
+  be pursuing an objective rather than profit. Cassian is the first person to put
+  a human/organised intelligence behind the drone resurgence.
+
+  One procurement strand leads toward xeno territory. This returns the investigation
+  to Mara rather than beginning a separate Red Jackal campaign.
+
+2. HELIX / NAVIRA — TISSUE RESEARCH, THEN XENO NEST
+  The xeno lead is Helix territory. Mara refers Agent X to Navira Derris because
+  VOX does not have the biological expertise to interpret it or safely enter a hive.
+
+  The first Helix step is the xeno-tissue recovery mission: xenos attack a station,
+  Agent X destroys them, tractors a substantial tissue sample aboard and physically
+  delivers that same sample to the Helix orbital laboratory.
+
+  Story purpose: Helix needs the tissue both to identify/locate the source nest and
+  to develop the pheromone masking required to enter it safely. This analysis must
+  take believable time. Do NOT jump immediately from sample delivery to the nest.
+
+2A. MARA / QUICKBITE — NYXO FALSE LEAD
+  While Helix is researching the tissue and preparing the pheromones, Mara follows a
+  possible rogue-drone lead involving trouble on a QuickBite delivery route. She
+  introduces Agent X to Nyxo Malloc because QuickBite has the local delivery problem
+  and the route activity might fit the rogue-drone investigation.
+
+  The mission itself should remain genuinely QuickBite: Agent X carries/delivers food
+  through a dangerous route and deals with the hostile contact. Mara's suspicion is
+  wrong. The attackers are pirates, not rogue drones, and the job produces no new
+  Custodian evidence. It is an intentional false lead and a pacing break while Helix
+  research happens off-screen.
+
+  Do not retroactively make the pirates secret Custodian agents. The value of this
+  mission is that it introduces Nyxo naturally and establishes Agent X as somebody he
+  will call directly in future. Later, QuickBite's widespread delivery activity can
+  expose something genuinely relevant to the main investigation, at which point Nyxo
+  contacts X because of this existing relationship. The exact later observation/clue
+  can be chosen when that mission is designed.
+
+2B. HELIX / NAVIRA — XENO NEST
+  Once Helix finishes the tissue analysis, Navira has both the nest lead and the
+  pheromone masking needed for the operation.
+
+  Use the established Xeno Nest mission as the main gameplay event: egg-field
+  approach, pheromone masking, enormous living hive, wide winding tunnels, regulator
+  placement, frenzy, escape to the observation zone and destruction of the hive.
+
+  Story purpose: the antagonist/drone network has been harvesting or experimenting
+  with xeno biology. Prefer the established xeno homing-organ idea: a preserved
+  homing organ, associated containment module or equivalent evidence demonstrates
+  that the network is trying to improve long-range navigation/tracking.
+
+  The drones did NOT create the xenos and the hive is not secretly a machine.
+  The disturbing discovery is that the revived military system is no longer merely
+  repeating wartime behaviour; somebody is deliberately teaching it to exploit new
+  resources and biology.
+
+  Navira explains what the biological evidence means. The result then goes back to
+  Mara, keeping VOX as the story spine.
+
+3. MARA / VOX — TRACE THE UPGRADED NETWORK
+  By this point the mystery should narrow, not broaden. Mara has:
+
+    * the Missing Manifest supply trail;
+    * Cassian's identification of a deliberate illicit procurement programme;
+    * evidence of an intelligent agent behind that programme;
+    * the xeno-derived navigation/tracking modification identified by Helix.
+
+  VOX uses those pieces to identify or follow an upgraded rogue carrier/drone.
+  Agent X intercepts it, fights its escorts and recovers/downloads its navigation
+  data. This is the final investigation mission, not the start of another chain.
+
+  Its payoff is explicit: the data identifies the active old-war manufacturing /
+  command installation being resupplied and revived by the antagonist.
+
+  Mara's story beat at the end should amount to: WE FOUND THE FACTORY.
+
+  From this point there are no more mystery-box detours.
+
+4. FINALE — THE REVIVED FACTORY
+  The final mission attacks the active manufacturing/command complex. It is an
+  old-war installation brought back into serious operation by the antagonist,
+  rather than a completely new civilisation-sized facility built from nothing.
+
+  The finale should use established Starstrike gameplay in a substantial multi-stage
+  run rather than introducing a new game style solely for the ending:
+
+    * fight through defending rogue drones in space;
+    * approach the installation / moon / surface complex;
+    * clear outer guns, towers or barriers;
+    * enter the industrial structure;
+    * visibly pass drone-production machinery / incomplete new-build drones;
+    * destroy production/power/control nodes;
+    * reach and destroy the central command/manufacturing core;
+    * escape using the established mission-complete -> pitch-up -> forward-zoom rule.
+
+  The antagonist should be conclusively dealt with here unless a later story is
+  deliberately planned in advance. Do not end this arc with a cheap escape pod or
+  another anonymous superior mastermind. Destroying the revived factory and command
+  centre must genuinely stop this resurgence.
+
+MONOLITH PAYOFF
+  The earlier 42 monolith remains ancient old-war technology and retains its visual
+  joke, but later evidence can establish that its architecture/signature belongs to
+  the same broad command/logistics infrastructure as the revived network. It is a
+  clue to the old system, not an alien creator and not the factory itself.
+
+ARC LENGTH / PACING RULE
+  After MISSING MANIFEST the intended main-story shape is therefore:
+
+    MISSING MANIFEST
+      -> CASSIAN'S PENTHOUSE FAVOUR / CUSTOMS FIGHT
+      -> CASSIAN IDENTIFIES THE SHADOW PROCUREMENT AGENT
+      -> HELIX XENO-TISSUE RECOVERY / DELIVERY
+      -> HELIX RESEARCHES TISSUE AND PREPARES PHEROMONES
+      -> MARA / QUICKBITE FALSE LEAD: SUSPECTED ROGUE DRONES, ACTUALLY PIRATES
+      -> HELIX XENO NEST
+      -> MARA TRACES AN UPGRADED DRONE/CARRIER
+      -> FACTORY ASSAULT / END OF ARC
+
+  The QuickBite mission is an intentional exception to the rule against inserting
+  extra factions merely to visit everybody. It fills the believable research gap,
+  introduces Nyxo through a real job, and deliberately produces no new Custodian clue.
+  Its longer-term payoff is the relationship: Nyxo can later call X when QuickBite's
+  delivery network notices something genuinely relevant.
+
+  Do not add further clue-of-the-week detours here. The player should be able to feel
+  the ending approaching once Cassian identifies the agent, and after the Xeno Nest
+  every remaining main mission should move directly toward finding and destroying the
+  factory.
+
+
+ONE-OFF STORY DISCOVERIES
+-------------------------
+42 MONOLITH
+  A one-off story mission in the alien swamp can end at a large black cuboid
+  monolith with a white "42" on its face. This is deliberately a visual joke:
+  the monolith evokes 2001: A Space Odyssey while 42 references The Hitchhiker's
+  Guide to the Galaxy.
+
+  Agent X scans the monolith using the reusable scan/analyse interaction. The
+  scan then unlocks story information rather than treating the monolith as a
+  generic mission object or repeatable encounter. Keep the 42 monolith unique so
+  the joke and the story reveal retain their impact. Later investigation can tie
+  its old-war signature to the revived rogue-drone command/logistics network, but
+  the initial mission should not explain the whole connection.
+
+MOUSE RETICLE / POINTER LOCK — HARD RULE
+----------------------------------------
+The visible yellow aiming/steering reticle is an in-game virtual control. It is
+NOT the browser/OS mouse pointer.
+
+Pointer Lock has a separate job: keep the real browser pointer captured and hidden
+throughout active full-screen gameplay so hard pitch-up/turn/zoom manoeuvres cannot
+move it to the top of the screen and expose the browser's full-screen-exit control.
+
+Therefore:
+* Pointer Lock must not determine whether Agent X currently has steering or aiming
+  control.
+* While locked, movementX/movementY are deltas applied to the virtual reticle when
+  the current gameplay state allows player control.
+* Direct-flight phases move the normal steering/aim reticle.
+* A scripted autopilot may deliberately allow weapon aim only (for example the bunker
+  breach approach) while autopilot owns ship movement.
+* Other autopilot/transit/turn/pitch-up/zoom phases may ignore mouse deltas, but should
+  keep Pointer Lock held.
+* When control hands back to the player — including entering or returning through a
+  tunnel — virtual reticle control resumes immediately. Do not release/reacquire
+  Pointer Lock and do not use browser clientX/clientY as the reticle while locked.
+* Release Pointer Lock only when gameplay yields to menus/UI, pause, or loss of full
+  screen.
+
+This separation is deliberate. Never conflate the hidden system pointer with the
+in-game reticle when adding a new mission phase.
+

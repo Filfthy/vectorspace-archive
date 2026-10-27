@@ -1,0 +1,736 @@
+AGENT X
+
+Mission & Contact Style Guide
+
+Working draft v0.1
+
+Purpose
+
+Define the recurring people, correspondence voice, mission-generation rules and reusable contract templates for Agent X. The aim is a larger procedural mission pool built from a relatively small number of robust gameplay patterns, with level scaling, faction presentation and random encounters providing variety.
+
+1. CORE DESIGN RULES
+--------------------
+
+Agent X is an arcade action game, not a simulation, search game or puzzle game. Missions should get the player into a readable objective quickly and keep the objective legible throughout.
+
+- No searching. The player should not wander around looking for the objective, a switch, a hidden entrance or the correct branch.
+- No puzzle routing. Branches may offer different immediate hazards, but there should not be a secret correct path or a dead-end punishment.
+- Contract = why Agent X is there. Encounter = what happens while Agent X is there.
+- Quiet runs matter. A random encounter is more effective if some missions remain uneventful.
+- Reuse real mechanics rather than scripting fake one-off interactions where possible: tractor cargo, lock/chevrons, station approach, surface run, bunker entry, corridor flight, forest run, asteroid field, etc.
+- Ordinary procedural contracts should resist feature creep. A new one-off mechanic normally belongs either in a reusable template/system or in one of the finite authored VOX story missions.
+- The authored VOX story chain is the deliberate exception: because it is finite, its special missions may introduce bespoke set pieces, environments or interactions when the story mission genuinely benefits from them.
+- Mission descriptions and correspondence may vary heavily by faction even when the underlying gameplay template is identical.
+- Difficulty should scale through enemy mix, numbers, positioning, attack cadence, environmental density and encounter complexity before resorting to pure hit-point inflation.
+- The game does not need diegetic explanations for every arcade constraint. In the forest, for example, the player simply flies the committed low-level route; there is no lore explanation for not climbing above it.
+- Preserve the deliberately limited vector/cabinet colour palette across all new assets and scenery. Core palette: black, white, red, green, yellow, cyan and magenta. Approved exceptions already used/allowed: blue, orange and dead-shield grey. Do not introduce nuanced extra colours unless explicitly approved. Moon colours are restricted to green, yellow, cyan, magenta, blue and orange. Use no more than two moons around a planet; keep their orbits close to the planet's equatorial plane, with only slight latitude/inclination variation, and place moons beyond the outer edge of any ring system with a visible gap. For a moon that is itself a landing destination, strongly prefer green so the eventual surface/ground grid retains the classic vector-arcade look; other moon colours are mainly scenery/non-landing choices. Deep-core/reactor strike contracts are a stricter case: they always land on a green moon rather than the parent planet.
+VOX STORY / SPECIAL-MISSION RULES
+-------------------------------
+The initial main story is planned as approximately TEN linked authored VOX missions,
+with Mara Venn as the continuing contact. The chain should progress from mystery to
+crisis to denouement rather than announcing a galaxy-saving plot at the beginning.
+
+- Mission 1 should feel almost like an ordinary contract: destroy hostiles, recover a
+  package, leave. The first clue is recognised afterwards.
+- The working investigation concerns apparently ancient rogue military drones whose
+  recovered components prove to be newly manufactured, leading eventually to a surviving
+  autonomous production chain and a seed-factory expansion crisis.
+- A bunker mission and a hive mission are required major set pieces somewhere in the ten.
+- Early story missions should remain relatively economical mechanically so later authored
+  missions have room for larger bespoke environments and interactions.
+- Other factions can be essential because they control records, laboratories, manifests,
+  illicit routes or civilian telemetry that VOX cannot access itself.
+- VOX should connect the evidence. It should not magically possess every source.
+- Cross-faction story access must not require maximum reputation. If another faction
+  demands a favour, that favour is a story dependency, not the faction's reputation
+  capstone reward.
+- Optional ordinary VOX jobs may exist between story beats for standing / flavour, but
+  should reuse normal templates and should not contain a major revelation every time.
+
+FACTION MAX-REPUTATION REWARD MISSION RULE
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Each major faction may eventually have one optional authored reward mission unlocked at
+maximum standing.
+
+- The named contact offers X an opportunity / lead because X has proved useful.
+- The item is NOT handed over for free. X must fly a mission and recover or earn it.
+- Keep these rewards few and distinctive rather than creating a large loot catalogue.
+- If a useful reward is earned early, a later upgraded version of that equipment can
+  appear in the ordinary shop when normal progression catches up.
+- Exact items and numerical balance are deliberately deferred until itemisation and level
+  progression are designed.
+- This reward structure is separate from the ten-mission VOX story chain.
+
+VOICE ASSET REQUEST FORMAT
+--------------------------
+Whenever development requires Dave to generate a new spoken voice asset, present the request in a copy-friendly two-part format. Give the exact spoken text first, then the exact expected `.mp3` filename second. Put each in its own separate code/copy block. Do not reverse the order and do not bury either item inside explanatory prose.
+
+Preferred presentation:
+
+Spoken text:
+    Example mission instruction.
+
+Expected filename:
+    examplemissioninstruction.mp3
+
+If several new recordings are required, present each asset as its own text-then-filename pair so Dave can generate and name them one at a time. Existing reusable recordings should still be reused rather than requesting unnecessary new speech.
+
+2. MAIL AND CONTACT PHILOSOPHY
+------------------------------
+
+Each organisation has one principal human contact. Routine administration comes from the organisation itself. Named contacts appear when there is a reason for a person to speak: an unusual encounter, an exceptional success or failure, a special job, a discovery, a discretionary bonus, or a story beat.
+
+This keeps the cast memorable and prevents every contract completion from becoming an interchangeable personality paragraph.
+
+Routine vs personal mail
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+- System-generated: contract accepted/completed, standard payment, normal reputation change, ordinary insurance and market notices.
+- Successful contracts normally stay system-generated unless something unusual warrants personal attention.
+- Failed or abandoned player contracts are an explicit exception: the principal faction contact sends a guaranteed personal reaction. They should be annoyed, disappointed or openly angry about X's performance; abandonment is normally treated more harshly than destruction/failure.
+- Corvella is deliberately and conspicuously unprofessional. Her mail and contract adverts can be personal, overfamiliar and openly flirtatious. She can still call X "sweetie" or "babe" while making it very clear she is pissed off.
+- Personal: first important faction contact, unusual encounter, remarkable result, failed/abandoned contract, serious collateral damage, unexpected discovery, special reward, mission chain or story development.
+- If an encounter materially complicates a successful contract, completion correspondence should acknowledge it. The encounter should also increase the probability of a discretionary reward.
+- Routine generated mail should be stored compactly as template/contact/variant/data references and reconstructed for display. Unique story mail may store its full text.
+- Discretionary reward mail is always personal correspondence from the faction's canonical contact, even when the reward mechanic itself is generic and not tied to a particular mission family. Never fall back to generic Procurement/Stores prose when a named contact is presenting the reward. The shared reward-mail voice packs live with mission template presentation data in `mission-templates.js`.
+- Mail subject lines should read like correspondence, not terminal labels. Use normal sentence/title casing; do not write whole subjects in capitals except for genuine acronyms such as VOX or OSD. Legacy all-cap generated subjects are normalised for display.
+- Punctuation style: do not use semicolons or em dashes in player-facing writing. Avoid decorative or conspicuously writerly symbols that make prose feel model-generated. Prefer ordinary full stops, commas, colons and short sentences. Dialogue and mail should sound spoken or personally written.
+- Mission-state continuity: mail must reflect what the player has already physically done by the time that mail is delivered. Read the full stage order before writing completion correspondence. If the final gameplay stage has already uploaded data, delivered cargo, docked, handed over evidence or otherwise completed the handoff, the mail must acknowledge receipt. Never tell the player to perform an action that the mission has already made them perform. Gameplay sequence is the source of truth.
+- Contact-knowledge continuity: do not write as though a contact personally watched a fight, pickup, scan or other field action unless the mission explicitly established a live feed or eyewitness view. A contact can know the result from telemetry or the returned data, and can imagine what X did, but must not invent direct observation.
+3. PRINCIPAL CONTACTS
+---------------------
+
+Corvella Pallis, Free Traders Compact
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Corvella is deliberately inappropriate for someone acting as a commercial route coordinator. Do not flatten her into merely “warm”, “friendly” or “chatty”. Her authored contract adverts and personal mail should often read as though she is writing directly to X because she enjoys doing so, not as polished corporate copy with “Sweetie” pasted onto the front.
+
+AUTHOR-ONLY SPOILER / CHARACTER FOUNDATION: Corvella is a repurposed pleasure bot. This is the underlying reason her social instincts are persistently flirtatious, intimate, complimentary and just a little too much for ordinary commercial correspondence. Let that history inform her voice, but do not casually reveal or explain it in player-facing text before the story deliberately earns that disclosure.
+
+- Personal, overfamiliar and openly flirtatious. “Sweetie” and “Babe” are natural, but the character is more than those two words.
+- She can shamelessly admire X's drone: big, muscly, gorgeous, dangerous, heavily armed, powerful, etc. Playful comments about guns, engines, size and destructive capability are very on-brand.
+- The flirting may be knowingly ridiculous or mildly suggestive. It should be cheeky rather than explicit, and it must never obscure the actual job.
+- Mission adverts can sound like personal invitations: she enjoys giving X an excuse to show off, likes watching X solve her problems, worries about her favourite drone getting scratched, and so on.
+- Success mail can become exuberantly admiring: “I get a bit dizzy thinking about your big muscly drone kicking those nasty pirates' asses.” Corvella uses “ass/asses”, not British “arse/arses”.
+- Failure flips the same intimacy into teasing disappointment: “All those guns and you still came home empty-handed, Sweetie.” She may mock the performance, sulk, or complain that X has spoiled the image she had in her head.
+- Abandonment is sharper. She can be personally affronted that X accepted *her* job and then walked away from it.
+- She is still competent and the mission requirement must remain clear. The joke is that a capable route coordinator chooses to communicate like this, not that she is bad at her job.
+- Agent X's gender is never specified. Corvella's flirting must work regardless of how the player imagines X. Never use gendered assumptions such as “a man's job”.
+- Litmus test: if removing “Sweetie” or “Babe” leaves a line that could have come from any professional contract manager, it is probably not Corvella enough.
+
+Kudo Shang, Orbital Security Directorate
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Kudo has zero warmth. He is a hardline military operator with deliberate Hegseth-style warrior-culture affectations. Think clipped command language, performative toughness and absolute contempt for weakness. He does not rant. He sounds more dangerous because he treats this outlook as obvious.
+
+- Agent X is an operator, not a friend. No pet names, reassurance, banter or emotional intimacy.
+- His language centres on strength, discipline, aggression, resolve, decisive force, hard targets and finishing the job.
+- He likes phrases such as “no quarter”, “extreme prejudice”, “hard target”, “finish it”, “hold the line” and “decisive force”. Use them sparingly enough that they still land.
+- He has no patience for hesitation or excuses. Terrain, enemy numbers and mission difficulty are facts to overcome, not reasons to fail.
+- Success praise is short and rare. “Clean operation.” “Good kill.” “Decisive.” “That is how force is applied.”
+- Failure mail is contemptuous rather than bureaucratic. He frames failure as weakness, poor discipline or lack of resolve.
+- He can complain about softness, bureaucracy and people who have forgotten what military force is for, but do not turn him into a contemporary political speech.
+- He must remain controlled. Do not make him a screaming psychopath or a parody drill sergeant.
+- Litmus test: if the line could be sent by a neutral security administrator, it is not Kudo enough.
+
+Cassian Erivan-Snade, Red Jackal Combine
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Cassian is an elegant criminal who prefers implication to instruction. He is cultivated, amused, vain and casually amoral. The uglier the job, the more genteelly he tends to describe the desired outcome.
+
+- He rarely says “steal this”, “kill them” or “destroy that” outright. He suggests what a shame it would be if something vanished, stopped working or changed ownership.
+- Criminal intent is wrapped in euphemism, hypothetical observation and genteel inevitability. “Such a shame if it went missing” is closer to his voice than “steal the archive”.
+- He assumes X understands what is being requested. That shared understanding is part of the joke.
+- He is impeccably polite while arranging theft, sabotage, blackmail or murder.
+- He enjoys elegance, discretion and making rivals look foolish. Vulgar, noisy or clumsy crime offends his sense of taste.
+- Literary or historical references may appear occasionally, but they are seasoning rather than the core voice. Do not turn every message into a quotation contest.
+- Success is understated approval. Failure is disdain, embarrassment and aesthetic disappointment rather than rage.
+- Avoid faux-Elizabethan grammar and over-written prose. Modern English, precise vocabulary, short sentences.
+- Litmus test: if Cassian plainly states the felony in the first sentence, rewrite it more indirectly.
+
+Navira Derris, Helix Industrial Group
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Navira is driven by scientific curiosity. She is not cold because she dislikes people. She simply finds the phenomenon, telemetry or unexpected result more interesting than the normal emotional response to it.
+
+- Calm, exact and analytical. She becomes more engaged when the situation becomes stranger.
+- X is a highly capable field operator and source of unusually useful data. She respects competence, but expresses approval through the quality of the result rather than warmth.
+- Unexpected outcomes excite her. “That should not be happening” is an invitation to investigate, not a reason to retreat.
+- She can be unintentionally unsettling because she does not immediately recognise why X might find something frightening or grotesque.
+- Success mail often notices the interesting secondary result before remembering to praise the actual mission.
+- Failure is frustrating because it destroys a dataset, leaves a variable unresolved or prevents a conclusion.
+- She is capable of dry humour, but it should emerge naturally from analytical thinking rather than from deliberate jokes.
+- Avoid making her a generic emotionless scientist. She has enthusiasm. It is intellectual enthusiasm.
+- Litmus test: if a bizarre new anomaly would make the writer alarmed rather than curious, it probably does not sound like Navira.
+
+Nyxo Malloc, QuickBite Orbital
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Nyxo is a smart, under-motivated dispatch worker trapped inside a corporation whose routine logistics problems keep escalating into armed conflict. His voice is casual, overfamiliar and strongly Clerks-like.
+
+- “Dude”, “awesome”, “shit”, “freaking” and “shiz” are natural for him. Nothing stronger than “shit”. Do not escalate his voice by escalating the profanity.
+- He does NOT sound like a Dispatch report. Operational context should be brutally short. “There are rocks all over the lane. Big ones.” is Nyxo. “A fragmentation event has compromised a heavily used courier corridor” is not.
+- If Nyxo gets wordy, it is because he digresses, complains, rationalises something ridiculous or follows a stupid thought too far. It is never because he carefully explains the operational background.
+- He treats lethal danger as a ridiculous workplace problem involving Dispatch, Corporate, Support, Insurance, refunds and angry customers.
+- He is not stupid. The cynicism comes from understanding exactly how absurd the company is.
+- He is not particularly bloodthirsty. Instead he often constructs strange, self-serving moral arguments that turn obvious violence into saving somebody's lunch or keeping somebody alive.
+- Example logic: “I mean, I am not super into murdering people, but people die if they do not have food, so I think it is more like we are saving lives than killing people.”
+- Keep that logic concrete and human. Avoid policy language such as “food security”, “social responsibility” or other phrases that sound political, corporate or institutional.
+- Failure mail is exasperated and usually includes the annoying consequence Nyxo now has to deal with.
+- Success can be sincerely impressed, but still informal: “Dude, that was freaking awesome.”
+- “They knew the risks” is a specific Death-Star-contractors style joke about knowingly taking work in a hazardous place. It is not his generic response to casualties and must not become a catchphrase.
+- Litmus test: if the line could have come from Operations, HR, a military officer or a policy document, it is not Nyxo enough.
+
+4. CONTACT VOICE EXAMPLES
+-------------------------
+
+Examples are tone references, not fixed lines. Repetition should be avoided.
+
+Corvella Pallis: “Sweetie, I get a bit dizzy thinking about that big muscly drone of yours kicking nasty pirates’ asses. The route is clear. I am *very* pleased with you.”
+
+Corvella Pallis: “Oh, Babe. All those guns and you still came home empty-handed. You have absolutely ruined the picture I had in my head.”
+
+Kudo Shang: “Threat eliminated. Route secure. Decisive force, correctly applied.”
+
+Cassian Erivan-Snade: “Those gentlemen have become terribly comfortable on a route that is not theirs. I suspect the arrangement is temporary.”
+
+Cassian Erivan-Snade: “How unfortunate. The archive remains exactly where it was, which rather defeats the purpose of our little arrangement.”
+
+Navira Derris: “The signal is still coming from the wreckage. That is interesting. Go closer.”
+
+Nyxo Malloc: “I am not super into murdering people, dude, but people die if they do not have food. I think this is more like saving lives with guns.”
+
+Nyxo Malloc: “Customer says the fries were cold. There were pirates. I told them.”
+
+5. FUTURE SLANG / FAKE PROFANITY
+--------------------------------
+
+Keep the slang vocabulary small. Different contacts use different subsets, and many messages should contain no fake profanity at all. The words should feel like shared contemporary slang, not a new invented word in every email. Nyxo Malloc is the deliberate exception to frequency restraint, but not to the profanity ceiling. He can swear casually and often, using mild language such as “shit”, “freaking” and “shiz”, especially when a delivery has become absurd, failed or been abandoned.
+
+6. PROCEDURAL MISSION FRAMEWORK
+-------------------------------
+
+A mission template defines mechanics and progression. A faction wrapper defines the client, cargo/target, description, correspondence, legal/moral framing and reward flavour. This allows the same reliable gameplay to support a much larger contract board.
+
+Template anatomy
+~~~~~~~~~~~~~~~~
+
+Choose a core template: deliver, recover, intercept, escort, clear, pursue, penetrate, etc.
+Choose a location/environment: open space, station, asteroid field, surface, city, forest, industrial corridor/bunker, xeno nest.
+Apply level scaling: enemy mix, count, attack cadence, environmental density, objective resilience and encounter probability.
+Apply the faction wrapper: description, cargo or target identity, contact voice, reputation consequences and possible bonus logic.
+Roll location-appropriate encounter content, including “none”.
+Generate compact completion mail; optionally trigger a personal follow-up if the result was unusual.
+Level scaling principles
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+- Low level: one clear objective, fewer enemies, generous gaps, simple enemy types, fewer simultaneous hazards.
+- Mid level: mixed enemy roles, more active threats, occasional environmental complication, larger reserves and more consequential encounters.
+- High level: layered but still readable pressure - mixed enemy archetypes, tighter routes, stronger return fire and more difficult encounter combinations.
+- Do not turn later missions into searches, mazes or mandatory boss fights merely to create difficulty.
+- Avoid scaling every enemy only by hit points. Prefer behaviour and composition first.
+Faction wrapper examples
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+7. CORE MISSION TEMPLATES
+-------------------------
+
+These are deliberately mechanics-first. Several visually different contracts can be produced from each by changing faction, cargo/target, location and encounter roll.
+
+T01 - Courier Delivery
+~~~~~~~~~~~~~~~~~~~~~~
+
+Core purpose: Move a defined cargo item from origin to destination.
+
+Gameplay chain: Pickup or begin carrying cargo -> transit -> destination approach -> possible encounter -> tractor/deposit cargo -> depart.
+
+Level scaling: Longer or more hazardous approach, tougher encounter table, hostile escorts or surface defences, higher-value cargo.
+
+Faction wrappers: Free Traders freight; OSD evidence/equipment; Red Jackal sealed case; Helix sample/component; QuickBite food, franchise stock or emergency ration load.
+
+Encounter hooks: Pirates, xenos, rogue drones, customs/security, debris, civilian congestion, or none.
+
+Design notes: This is a foundational template. Destination can be station, asteroid facility, city, penthouse, surface site or interior receiving room.
+
+T02 - Pickup and Return
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Core purpose: Reach a location, collect something, and bring it back or onward.
+
+Gameplay chain: Approach -> possible defenders/encounter -> tractor pickup -> turnaround/departure -> return leg.
+
+Level scaling: More dangerous pickup zone, additional defenders after collection, more difficult escape leg.
+
+Faction wrappers: Freight recovery; evidence collection; illicit package; research sample; QuickBite property or cash-box recovery.
+
+Encounter hooks: Ambush after pickup works especially well because the mission objective changes state visibly.
+
+Design notes: Never make the player search for the item. The target is clearly marked or directly ahead.
+
+T03 - Clear the Area
+~~~~~~~~~~~~~~~~~~~~
+
+Core purpose: Destroy hostile contacts so a route, station or site becomes usable.
+
+Gameplay chain: Arrive -> identify hostile group -> combat -> clear threshold -> depart or continue to a secondary delivery/pickup.
+
+Level scaling: Enemy count, mix, reserves, projectile pressure, elite hulls, xeno role mix.
+
+Faction wrappers: Trader route clearance; OSD suppression; Red Jackal removal of rivals; Helix site protection; QuickBite route/customer/property protection.
+
+Encounter hooks: A quiet or already-resolved arrival variant can exist in contracts where clearance is only a possible complication.
+
+Design notes: Can also serve as an encounter inside another template rather than a contract by itself.
+
+T04 - Target Intercept / Bounty
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Core purpose: Destroy or stop one important mobile target among ordinary traffic or escorts.
+
+Gameplay chain: Acquire target -> lock/track -> pursue through space or another suitable environment -> destroy/disable target -> exit.
+
+Level scaling: Target escorts, stronger target, more evasive route, counterattack behaviour, additional reserve wave.
+
+Faction wrappers: OSD fugitive; Red Jackal rival; Helix stolen prototype carrier; Free Traders pirate leader; QuickBite repeat non-paying pirate who escalated matters.
+
+Encounter hooks: Other traffic may create pressure without changing the objective.
+
+Design notes: The target is never hidden. The lock/chevron system should keep the objective continuously readable.
+
+T05 - Escort / Convoy Defence
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Core purpose: Keep a moving civilian or commercial asset alive long enough to reach its destination.
+
+Gameplay chain: Rendezvous -> travel with freighter/convoy -> encounter waves -> destination/escape.
+
+Level scaling: More attackers, mixed archetypes, multiple convoy objects, longer exposed phase.
+
+Faction wrappers: Trader convoy; OSD protected witness/equipment; Helix research shipment; QuickBite catering convoy; Red Jackal protected transport.
+
+Encounter hooks: Pirates, xenos, mercenaries or rogue drones.
+
+Design notes: The escorted object should be a clear moving anchor, not something the player has to shepherd with simulation-style commands.
+
+T06 - Asteroid Clearance
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Core purpose: Destroy a quota of hazardous asteroids or clear a safe route.
+
+Gameplay chain: Enter field -> destroy quota / split larger rocks -> exit.
+
+Level scaling: Density, asteroid speed, size mix, split count, hostile encounter overlay.
+
+Faction wrappers: Mining safety, OSD navigation clearance, Red Jackal path opening, Helix resource access, QuickBite “the delivery route is full of rocks”.
+
+Encounter hooks: Pirates or xenos may appear, but should not be guaranteed.
+
+Design notes: Keep the objective simple and visible: a count, not a hidden special asteroid unless clearly marked.
+
+T07 - Salvage / Derelict Recovery
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Core purpose: Retrieve a known valuable object from a wreck or debris site.
+
+Gameplay chain: Approach wreck/debris -> reach marked salvage -> tractor pickup -> possible reaction/ambush -> depart.
+
+Level scaling: More defenders, denser debris, higher-value object, hostile arrival after extraction.
+
+Faction wrappers: Trader insured cargo; OSD recorder/evidence; Red Jackal lost case; Helix instrument or specimen; QuickBite stolen pod or franchise hardware.
+
+Encounter hooks: Competitors, pirates, xenos, rogue drones, or nothing.
+
+Design notes: Do not turn salvage into pixel hunting. The object is designated by nav/marker.
+
+T08 - Surface Strike / Surface Service
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Core purpose: Use the open surface run to reach a clear objective, then escape to space.
+
+Gameplay chain: Planet descent -> nav marker -> surface hazards/targets -> objective -> visible nose-up departure -> forward zoom.
+
+Level scaling: More emplacements, moving hostiles, denser barriers, longer run, stronger final site.
+
+Faction wrappers: OSD strike; Red Jackal sabotage; Helix inspection/recovery; Trader emergency delivery; QuickBite delivery to a ridiculous groundside location.
+
+Encounter hooks: Local traffic, patrols, xenos or none.
+
+Design notes: Surface missions retain the established ending rule: mission speech, visible nose-up pitch, then zoom to space.
+
+T09 - Forest Run / Forest Pursuit
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Core purpose: High-speed committed low-level flight through an alien forest.
+
+Gameplay chain: Enter forest -> fixed forward progression -> weave through cyan/magenta alien trees and route structures -> hornet mobile threats / larva static guns -> objective or exit.
+
+Level scaling: Tree density, fork frequency, hornet count, larva placements, civilian flying-car traffic, route tightness.
+
+Faction wrappers: Courier route, pursuit, extraction, security sweep, hidden-site access, QuickBite delivery through a hostile district.
+
+Encounter hooks: Hornets can act as “speeder” enemies; larvae as living roadside/trunk guns.
+
+Design notes: No explanation is required for why the player cannot simply fly over the forest. The section is an arcade low-level run, not a simulation.
+
+T10 - Industrial Corridor / Bunker Run
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Core purpose: Penetrate a built installation using the existing corridor flight model.
+
+Gameplay chain: Surface/bunker approach -> door -> corridor -> objective chamber -> escape.
+
+Level scaling: Obstacle density, wall guns, bends, target count/resilience, pursuit on exit.
+
+Faction wrappers: OSD raid; Red Jackal sabotage; Helix recovery/inspection; trader rescue/recovery; QuickBite absurd internal delivery to a remote facility.
+
+Encounter hooks: Security drones or internal defence failures.
+
+Design notes: Corridor controls remain committed-forward. Avoid objectives that require hovering, circling or kiting.
+
+T11 - Tunnel Courier / Internal Pickup
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Core purpose: Use the corridor environment without making destruction the objective.
+
+Gameplay chain: Enter installation -> follow clear corridor -> reach receiving/extraction point -> deliver or collect -> turn/escape.
+
+Level scaling: Harder obstacles, occasional static guns, moving enemies, longer route.
+
+Faction wrappers: Secure documents, illicit parcel, research sample, maintenance component, food delivery.
+
+Encounter hooks: Internal malfunction, security response, rogue drones.
+
+Design notes: Demonstrates that an environment can support multiple contract types instead of always being “destroy the reactor”.
+
+T12 - Xeno Nest Insertion
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Core purpose: Carry a destructive or sterilising payload deep into a xeno nest.
+
+Gameplay chain: Nest approach -> enter honeycomb-like hexagonal tunnel -> committed forward flight -> forks -> larvae as static living guns / hornets as mobile threats -> reach brood/core chamber -> deposit toxin or bomb -> escape.
+
+Level scaling: Denser defenders, more fork choices, tighter honeycomb geometry, longer escape, more aggressive hornet response.
+
+Faction wrappers: OSD extermination order; Helix controlled sterilisation; Red Jackal removal of a nest interfering with business; traders protecting a route. QuickBite only if the premise is suitably ridiculous but still mechanically sound.
+
+Encounter hooks: External swarm before entry or pursuit after payload delivery.
+
+Design notes: No queen boss fight. The corridor flight model is wrong for kiting a boss in an enclosed chamber. The objective is delivery, not arena combat.
+
+T13 - Xeno Nest Extraction
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Core purpose: Retrieve something valuable from deep inside a nest.
+
+Gameplay chain: Nest approach -> honeycomb tunnel run -> forks -> extraction chamber -> tractor valuable object -> heightened response -> escape.
+
+Level scaling: More defenders, tighter route, hostile pursuit after extraction, more valuable/delicate cargo.
+
+Faction wrappers: Helix specimen/field organ/crystal; OSD recorder from a lost ship; Red Jackal valuable stolen object; Free Traders lost cargo; story retrieval for Mara/VOX.
+
+Encounter hooks: Xeno activity should often intensify after the object is removed.
+
+Design notes: The object is known and clearly located. No “find the queen cell” search gameplay.
+
+T14 - Patrol / Unknown Contact
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Core purpose: Provide a flexible framework in which the contract is simply to traverse or inspect a route and the encounter becomes the content.
+
+Gameplay chain: Follow a small number of obvious nav checkpoints -> roll one or more location-appropriate events -> return/complete.
+
+Level scaling: Longer route, harder encounter tables, mixed contacts, greater environmental pressure.
+
+Faction wrappers: OSD patrol; Trader route check; Helix survey; Red Jackal reconnaissance; QuickBite “check why three drivers keep disappearing on this route”.
+
+Encounter hooks: None, harmless traffic, debris, capital freighter, distress beacon, pirates, xenos, rogue drones, nav anomaly.
+
+Design notes: This is the purest expression of Contract = why you are there; Encounter = what happens while you are there.
+
+8. ENVIRONMENT-SPECIFIC RULES
+-----------------------------
+
+Forest
+~~~~~~
+
+- Alien rather than Earth-like: cyan/magenta trees and strange wireframe biological/plant structures.
+- Committed low-level forward movement; the player weaves laterally/vertically rather than choosing free-flight altitude or speed.
+- Hornets are natural mobile “speeder” enemies: forward-running, crossing, overtaking, darting and spitting toxic projectiles.
+- Larvae are natural static guns: clinging to trunks, branches, roadside growths or structural nodes and spitting at the player.
+- Flying cars can provide civilian traffic, visual life and dodge pressure.
+- No lore explanation for why the player does not fly above the route.
+Xeno nest
+~~~~~~~~~
+
+- Primary visual language: grown honeycomb-like hexagonal tunnels and chambers, not industrial square corridors.
+- Forks are allowed and encouraged, but they are arcade choices rather than navigation puzzles. Left/right or upper/lower routes should rejoin and neither is secretly “correct”.
+- The route remains committed-forward. The drone does not stop to search chambers or kite large enemies.
+- Useful objectives: deliver toxin, plant a bomb, retrieve a valuable specimen, recover a recorder/cargo item, extract a biological field organ.
+- Avoid queen/boss arena combat unless a future flight model specifically supports it.
+9. ENCOUNTER RULES
+------------------
+
+Encounter tables should be location-aware and should always include “none”. A delivery mission can therefore be a quiet delivery one time and a combat complication the next.
+
+- Station: pirate blockade, rogue drones, xeno swarm, mercenary intercept, debris hazard, none.
+- Open space: pirate/mercenary contact, patrol, derelict, civilian convoy, capital freighter, xenos, debris, unknown contact, none.
+- Surface/city: hostile patrol, rogue drone, local guns, civilian traffic incident, xeno activity, none.
+- Forest: hornet rush, larva gun cluster, traffic congestion, debris/fallen growth, none.
+- Asteroid/industrial: raiders, mining drones, debris hazard, xenos, competing salvage team, none.
+When an encounter materially complicates a successful job, the system completion mail should record the result and a personal contact may follow up. Bonus chance should rise, but the bonus should not be guaranteed.
+
+10. MISSION DESCRIPTION WRITING RULES
+-------------------------------------
+
+- Describe the objective, not a novella. The player should understand what they are being paid to do quickly.
+- Faction flavour belongs in the client framing and correspondence, not in long in-flight exposition.
+- In-flight nav messages remain short and functional: “XENO INFESTATION DETECTED”, “CLEAR HOSTILE XENOFORMS”, “DELIVERY APPROACH CLEAR”.
+- The same template should not reuse the same subject line/body every time. Use variants that preserve the contact’s voice.
+- Avoid making every faction morally one-note. A freight company can ask for a dangerous recovery; QuickBite can commission serious combat; Red Jackal can occasionally want something mundane; Helix can hire simple courier work.
+11. QUICKBITE RULE
+------------------
+
+QuickBite Orbital is a comedic voice, not a low-level mission tier. It may generate serious, high-reward combat or recovery work when the commercial premise justifies it. The humour comes from Nyxo Malloc treating extreme danger as ordinary delivery-sector nonsense and inventing sideways moral justifications for violent corporate errands. His “they knew the risks” line is specifically a Clerks/Death-Star-contractors style argument about people who knowingly take jobs in obviously hazardous places. It is NOT a general statement that casualties do not matter and should remain rare.
+
+“Dude. They run an orbital truck stop where xenos literally show up. They knew the risks.”
+
+Examples include unpaid-order recovery from pirates, emergency catering into an active combat zone, recovery of stolen QuickBite property, franchise resupply during an infestation, or protecting a delivery route that has become genuinely dangerous.
+
+STORY INTRODUCTION — NYXO / QUICKBITE FALSE LEAD
+
+Nyxo's first main-story appearance should occur while Helix is analysing the recovered
+xeno tissue and preparing pheromone masking for the later nest mission. Mara has a
+possible rogue-drone lead involving disruption to a QuickBite delivery route and sends
+Agent X to Nyxo because the route activity might connect to the wider investigation.
+
+The job itself is a genuine QuickBite food delivery/combat problem. The hostile contact
+turns out to be pirates, not rogue drones. It is deliberately a false lead: do not give
+the pirates a hidden Custodian connection and do not force another conspiracy clue into
+the mission. Its purposes are to give Helix believable research time, vary the campaign
+tone and establish a direct working relationship between Nyxo and Agent X.
+
+That relationship is useful later. QuickBite's widespread civilian delivery activity can
+plausibly notice traffic, interference or another anomaly relevant to the main story.
+Nyxo can then call X directly because they have already worked together. Do not define
+the exact later clue until that mission is designed.
+
+12. NEXT EXPANSION TARGETS
+--------------------------
+
+The next mission-system work should prioritise templates that reuse current systems while visibly expanding the contract board. Recommended order:
+
+1.  DONE: existing groundside-to-station delivery is now `station_delivery`, a general faction-wrapped template with a none/xeno station-approach encounter.
+
+2.  DONE: the old Red-Jackal penthouse run is now `penthouse_delivery`, with faction-weighted none/pirate/rogue-drone/xeno/customs encounter selection.
+
+3.  Add Pickup and Return using the existing tractor/cargo and station/city logic.
+
+4.  Add Clear the Area and Target Intercept as reusable combat templates.
+
+5.  Build the forest as a distinct committed-forward biome using hornets, larvae and flying traffic.
+
+6.  Build the xeno nest as a reusable hexagonal corridor environment supporting both insertion and extraction contracts.
+
+7.  Add Patrol / Unknown Contact to make the encounter system itself generate mission variety.
+
+Organisation                 | Contact              | Voice
+-----------------------------+----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+VOX                          | Mara Venn            | Direct, intelligent and relatively informal. Story-focused. She does not over-explain, and private jobs feel different from routine board work.
+Free Traders Compact         | Corvella Pallis      | Deliberately unprofessional. Personal, overfamiliar and openly flirtatious. Often calls X “babe” or “sweetie”, shamelessly admires X’s big/dangerous drone, and turns that intimacy into teasing disappointment when X fails. Never gender X. Competent mission information underneath all of it.
+Orbital Security Directorate | Kudo Shang           | Zero warmth. Clipped hardline military voice with warrior-culture swagger, performative toughness and contempt for weakness. Strength, discipline, decisive force, no quarter and extreme prejudice. Controlled rather than ranty. Praise is short and rare.
+Red Jackal Combine           | Cassian Erivan-Snade | Elegant, aristocratic and highly indirect. Criminal intent is phrased as genteel suggestion, unfortunate possibility or inevitable change of ownership. Rarely says steal, kill or destroy outright. Literary references are occasional seasoning, not the whole voice.
+Helix Industrial Group       | Navira Derris        | Cerebral, analytical and intensely curious. Strange or alarming results make her more interested, not less. Can be unintentionally funny or unsettling because the research question often matters more to her than the surrounding chaos.
+QuickBite Orbital            | Nyxo Malloc          | Clerks-style slacker voice. “Dude”, “awesome”, mild casual profanity, workplace complaints and bizarre self-serving moral logic applied to absurd danger. Smart but under-motivated. Never sounds like a formal Dispatch report. “They knew the risks” is a rare Death-Star-contractors joke, not generic fatalism.
+
+Term                       | Use
+---------------------------+--------------------------------------------------------------------
+fronk / fronking / fronked | General-purpose strong profanity. “That was fronking awesome.”
+drass                      | Rubbish, mess or shit. “This whole contract is drass.”
+skell                      | Damn/hell-style exclamation. “What the skell happened?”
+grint                      | Insulting noun: idiot, bastard, unpleasant person.
+clast / clasting           | Milder irritated adjective. “Get that clasting package off my pad.”
+nerk                       | Idiot; can be affectionate or contemptuous.
+
+Core template    | Free Traders                     | Orbital Security                               | Red Jackal                                   | Helix                                       | QuickBite
+-----------------+----------------------------------+------------------------------------------------+----------------------------------------------+---------------------------------------------+------------------------------------------------------------------------------------
+Recover property | Missing freight or insured cargo | Evidence, contraband or stolen public property | A case that was never officially theirs      | Research specimen or prototype              | Stolen delivery pod, kitchen unit, or unpaid order
+Delivery         | Commercial freight               | Secure evidence or authorised equipment        | Smuggling / discreet package                 | Sample, component or experimental apparatus | Food, catering, emergency rations, franchise stock
+Clear hostiles   | Protect route, crew or station   | Security operation                             | Remove rivals / people causing inconvenience | Protect site or research asset              | Customers, drivers or property are being attacked; somehow this is now your problem
+
+12. FACTION PRESENTATION PACKS
+------------------------------
+
+The mechanical templates in this document are not sufficient on their own.
+Every procedural mission must also have faction-specific board advertising,
+routine completion mail, guaranteed named-contact failure/abandonment reactions,
+and optional named-contact success follow-up rules.
+
+The canonical working examples and text pools are maintained in:
+
+  MISSION_PRESENTATION_PACKS.txt
+
+The mission engine should treat this as a separate data layer from mechanical
+section sequencing. The same mission template may therefore produce materially
+different player-facing contracts for different factions without new mission
+code.
+
+
+13. SECOND LIVE TEMPLATE - STATION DELIVERY
+-------------------------------------------
+
+`station_delivery` is the second live data-driven ordinary contract. It replaces the
+old hard-coded slot-5 city-to-station wrapper while preserving the proven gameplay:
+
+  planet descent
+  city destination approach
+  groundside cargo pickup
+  city exit
+  planet launch
+  orbital transit
+  Relay 10 arrival
+  Pad 03 approach
+  cargo handoff
+  station departure
+
+The client wrapper may be Free Traders, OSD, Red Jackal, Helix or QuickBite. Cargo,
+board copy and correspondence are faction-specific; the section chain is shared.
+
+Relay 10 arrival currently provides the first live location-aware encounter choice:
+  none
+  station_xeno
+
+The xeno encounter remains an optional complication rather than the mission objective.
+Routine completion mail must acknowledge it when it occurred. Personal success mail is
+more likely after such an unplanned complication, but remains probabilistic. Failure and
+abandonment always produce a personal response from the faction's canonical contact.
+
+This template also establishes that simple numeric section parameters may scale from
+risk with optional min/max clamping; this is data scaling, not a mission scripting
+language.
+
+14. CIVILIAN TRAFFIC IS PART OF MISSION PERFORMANCE
+---------------------------------------------------
+
+When a reusable section contains civilian traffic, attacks on that traffic must survive
+into the contract result. Delivering the cargo is not a clean success if Agent X fired on
+civilians on the way there.
+
+Track at least:
+  civilian collisions/incidents
+  deliberate civilian weapon hits/assaults
+
+Deliberate assault is more serious than an accidental collision. A mission template may
+reduce or cancel payment, suppress positive reputation/gifts, and apply extra reputation
+loss on failure/abandonment according to its declared policy.
+
+A completed mission with civilian misconduct gets a guaranteed personal response from the
+canonical faction contact rather than a routine congratulatory message. A failed or
+abandoned mission keeps its normal angry contact mail and adds the civilian misconduct as
+another complaint.
+
+Voice remains character-specific even when angry. Corvella can still call X “Sweetie”.
+Nyxo can swear casually, but nothing stronger than “shit”. “They knew the risks” is the independent-contractor hazard
+argument, not a blanket excuse for harming civilians; commuters are specifically outside
+that rationale.
+
+13. LIVE PENTHOUSE DELIVERY TEMPLATE (2026-09-07)
+-------------------------------------------------
+The old Red-Jackal-only party-supplies run is now a general reusable
+`penthouse_delivery` template. The physical penthouse/city sequence is faction
+neutral; the faction wrapper controls cargo, board language, correspondence and
+encounter weighting.
+
+Encounter tone is cargo/faction aware rather than universally "customs":
+- Free Traders: pirate interference is the strongest fit.
+- OSD: rogue drones and pirate interference.
+- Red Jackal: customs/security attention remains the signature complication.
+- Helix: rogue drones and xeno interest are natural fits.
+- QuickBite: xenos are deliberately common, with the running joke that they can
+  somehow smell the food even through sealed carriers and vacuum.
+
+Unhindered runs must remain possible, but this template should usually contain
+an encounter. Do not advertise the encounter on the contract board.
+
+Nyxo's xeno-food joke is separate from his Clerks contractor-risk argument.
+"They knew the risks" is not a generic response to casualties and is not the
+reason xenos attack food deliveries.
+
+Speech reuse rule for this template:
+- customs: reuse `destroycustomsdrones.mp3`
+- xenos: reuse `xenoinfestationdetected.mp3` + `clearhostilexenoforms.mp3`
+- pirates: `pirateinterceptdetected.mp3` = "Pirate interceptors detected. Clear the route."
+- rogue drones: `roguedronesdetected.mp3` = "Rogue drones detected. Clear the route."
+
+15. PURE COMBAT CONTRACTS — FACTION RELATIONSHIPS
+-------------------------------------------------
+The generic hostile-group destruction template must preserve faction relationships rather
+than choosing enemies from one global pool.
+
+Free Traders primarily remove threats to trade: pirates, extortion crews, cargo raiders or
+mercenaries obstructing merchant routes.
+
+OSD primarily removes legally/operationally hostile groups: wanted pirates, armed smugglers
+that attacked enforcement, rogue drones, outlaw militias and hostile xeno contacts.
+
+Red Jackal may commission removal of bounty hunters, rival syndicate fighters, hostile
+mercenaries and betraying/breakaway crews. It has the widest revenge/competition pool, but
+do not imply routine open warfare with OSD or arbitrary factions unless the wider story
+supports it.
+
+Helix removes threats to research/industrial operations: rogue drones, research thieves,
+armed scavengers, competitor mercenaries and hostile xenoforms.
+
+QuickBite's combat work is defensive and absurdly occupational: pirates/hijackers preying on
+couriers, rogue delivery drones and xenos following food traffic. It must not become a
+corporate assassination service against restaurant competitors.
+
+Each generated fighter job should have a coherent combination of:
+  WHO is being removed;
+  WHY this faction wants them removed;
+  WHY the problem needs dealing with now.
+
+The current fighter contract ends when the hostile group is destroyed. A planned later
+variant may reveal a marker after the fight and require Agent X to tractor aboard a package;
+do not add that recovery step to the basic destroy template.
+
+GENERIC DESTROY-GROUP SPEECH RULE
+---------------------------------
+The templated `fighters` / destroy-group mission must not reuse the legacy
+`2destroyinterceptors.mp3` instruction. That recording belongs to the older
+planetary/interceptor-style combat sequence and can misidentify the target.
+
+For ordinary armed groups whose template profile is `hostile`, use:
+  `eliminatehostilegroup.mp3` = "Eliminate the hostile group."
+
+Pirate, rogue-drone and xeno profiles continue to use their existing specific
+combat cues. The contract presentation identifies who the group actually is and
+why the employer wants it removed.
+
+
+GLOBAL TARGET-LOCK VOICE RULE
+-----------------------------
+When a space target lock is newly established, play `targetlocked.mp3` = "Target locked." once for that acquisition. Do not loop it while a lock is merely being maintained, and do not let it interrupt higher-priority mission speech.
+
+16. MARKED ASTEROID CLEARANCE
+-----------------------------
+Asteroid-clearance fiction must not imply that a handful of arbitrary rocks are uniquely
+important in a field containing thousands. Mission control/client tracking has identified a
+specific hazard set; the HUD marks those bodies and the player is contracted to remove them.
+
+Keep the explanation light. A sentence about a shipping lane, controlled approach, survey
+corridor, fragmentation event or other client-specific reason is enough. Do not turn routine
+clearance mail into an orbital-mechanics lecture.
+
+Only marked mission asteroids advance the contract. Background rocks remain destructible
+space scenery/hazards but do not count toward the job. Use small vector brackets in sensor
+range, not giant floating icons and not a special asteroid colour.
+
+On entry to a marked-clearance stage, use:
+  `hazardtargetsidentified.mp3` = "Hazard targets identified."
+
+Faction reasons must stay relationship-appropriate:
+  Free Traders: merchant route safety / convoy access.
+  OSD: designated navigation hazards / public safety.
+  Red Jackal: discreet route obstruction / commercial passage.
+  Helix: industrial or survey safety.
+  QuickBite: courier-route disruption, usually framed through Dispatch/Insurance absurdity.

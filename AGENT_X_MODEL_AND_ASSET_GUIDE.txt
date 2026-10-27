@@ -1,0 +1,335 @@
+AGENT X / STARSTRIKE — MODEL AND ASSET GUIDE
+============================================
+
+PURPOSE
+-------
+This is the canonical guide for generating and reviewing Starstrike 3D line-mesh
+assets. Read this before creating new fighters, freighters, stations, ground objects,
+or other 3D models for the project.
+
+The project deliberately uses a vector-arcade look. Models are judged primarily by
+silhouette, clean geometry, hidden-line behaviour and readability at game scale — not
+by surface detail, texture or realistic material rendering.
+
+
+1. CANONICAL SHIP AUDITION VIEWER FORMAT
+----------------------------------------
+The standalone Starstrike Ship Audition Viewer uses the same basic geometry
+convention as the game.
+
+Canonical JSON model:
+
+{
+  "name": "Example Fighter",
+  "v": [[0,0,-1],[0,0,1]],
+  "e": [[0,1]],
+  "faces": []
+}
+
+Keys:
+
+  name   Human-readable model name.
+  v      Array of [x,y,z] vertices.
+  e      Array of [vertexIndexA, vertexIndexB] edges.
+  faces  Optional polygon arrays of vertex indices used for hidden-line occlusion.
+
+The viewer also accepts:
+
+  - an array of model objects
+  - { "models": [ ... ] }
+  - { "name":"...", "mesh":{ "v":[...], "e":[...] }, "faces":[...] }
+  - "f" as an alias for "faces"
+
+For batches, prefer the explicit wrapper:
+
+  { "models": [ ... ] }
+
+This makes a whole audition set easy to paste into the viewer at once.
+
+Validation requirements:
+
+  - every vertex must be exactly three finite numbers
+  - every edge must contain exactly two valid integer vertex indices
+  - every face must contain at least three valid integer vertex indices
+  - do not leave dangling references to deleted vertices
+
+
+2. GAME-COMPATIBLE OUTPUT
+-------------------------
+The game mesh itself uses the v/e object directly. Hidden-line faces are registered
+separately in meshFaces.
+
+The viewer's "Copy game snippet" output is conceptually:
+
+  const exampleFighterMesh={v:[...],e:[...]};
+  meshFaces.set(exampleFighterMesh,[...faces...]);
+
+When creating new models, keep this compatibility. Do not invent another mesh schema
+unless the project architecture is intentionally changed.
+
+
+3. COORDINATE CONVENTION
+------------------------
+The current fighter baselines in the viewer establish the following convention:
+
+  X = left / right
+  Y = up / down
+  Z = fore / aft
+
+The ship's NOSE / FORWARD end is toward NEGATIVE Z.
+The rear/tail extends toward POSITIVE Z.
+
+This matters when supplying front, side and top silhouettes and when attaching guns,
+engines or other directional details.
+
+
+4. HIDDEN-LINE FACES
+--------------------
+"faces" are not visible filled surfaces in the final game style. They are geometry
+used by the viewer/game to decide which wireframe edges are hidden behind solid
+parts of the craft.
+
+Important rules:
+
+  - faces should represent the actual solid surfaces implied by the wireframe
+  - do not add arbitrary giant occlusion polygons simply to hide unwanted lines
+  - attachments may need their own faces so their rear edges occlude correctly
+  - check that lower fuselage lines are not incorrectly hidden
+  - check that lines behind wings/bodywork are actually removed
+  - hidden-line mode should remain visually convincing during rotation, not only
+    from the default angle
+
+A model is not finished merely because the visible edge list looks good with hidden
+lines disabled.
+
+
+5. HOW MODELS MUST BE AUDITIONED
+--------------------------------
+The viewer provides the following relevant tests:
+
+  1 = front view
+  2 = side view
+  3 = top view
+  4 = three-quarter view
+
+Also test Near / Mid / Far apparent sizes, with Hidden lines enabled.
+
+Every serious candidate should therefore be checked for:
+
+  - front silhouette
+  - side silhouette
+  - top silhouette
+  - three-quarter structure
+  - readability at near range
+  - readability at normal/mid game range
+  - readability when small/far away
+  - hidden-line correctness throughout rotation
+
+Side profile is especially important. Do not judge a ship only from a flattering
+three-quarter view.
+
+
+6. CORE STARSTRIKE VISUAL RULES
+-------------------------------
+The game is intentionally vector-arcade rather than modern textured 3D.
+
+Hard style rules:
+
+  - wireframe / line-mesh presentation
+  - no surface textures
+  - no shading
+  - no colour fills used to make the model readable
+  - do not rely on different line weights to fake hierarchy
+  - hidden-line removal should provide the sense of solid form
+  - geometry and silhouette must do the visual work
+  - normal game-world wireframe uses one standard line weight: 1 px
+  - normal game-world wireframe is drawn at full opacity; NEVER fade geometry by depth
+  - do not alter a chosen palette colour with alpha, brightness, tint, haze, bloom,
+    distance fading or any other colour modulation to create depth
+  - depth must be communicated by perspective, motion and hidden-line occlusion only
+
+The depth-fade DEV switch exists only as an A/B diagnostic. The authentic/default
+Starstrike presentation is DEPTH FADE OFF. Do not make new assets or scenes depend on
+depth opacity for readability; if full-intensity geometry becomes cluttered, fix the
+geometry, occlusion or scene density instead.
+
+When colour is relevant, use the established game palette. A palette colour means the
+actual palette colour at full intensity, not a semi-transparent or brightness-adjusted
+variant. Do not introduce nuanced new colours simply for a new asset.
+
+Alpha/fading exception: fading is allowed for material that is actively disintegrating
+or being destroyed, such as fragments/shrapnel disappearing after an explosion. This
+is an effect representing disappearance, not a depth cue. Ordinary intact geometry,
+including ships, mines, stations, asteroids, terrain, scenery and interiors, must not
+use fades or alpha modulation.
+
+
+7. SHIP DESIGN LANGUAGE
+-----------------------
+The desired spacecraft language is closer to the strong angular silhouettes of old
+Elite-style ships than to literal modern fighter jets.
+
+Useful reference thinking:
+
+  - Viper / Sidewinder / Krait-like economy of silhouette
+  - pointed or clearly directional forms
+  - angled surfaces and strong planar changes
+  - distinctive side profiles
+  - embellish an underlying clean form rather than covering it with boxes
+
+Do NOT literally copy Elite geometry. Use it as a lesson in silhouette and economy.
+
+Avoid:
+
+  - generic aeroplane-with-space-bits designs
+  - fat tugboat-shaped bodies unless a heavy transport genuinely calls for it
+  - lower fuselages that are excessively deep/high and make everything look bulky
+  - merely stretching one previous design to pretend it is a new silhouette
+  - repeating the same wedge/body with cosmetic attachments
+  - lumpy cuboids pasted onto an otherwise clean hull
+  - needless geometric complexity that disappears at game scale
+
+When the user asks for a batch of radically different ships, make the silhouettes
+ACTUALLY radically different.
+
+
+8. ATTACHMENT / CONSTRUCTION QUALITY
+------------------------------------
+This has caused repeated rejects and is a hard quality rule.
+
+Guns, engines, cockpits, fins, wing tips and other embellishments must be visibly and
+structurally attached to the parent craft.
+
+Do not produce:
+
+  - floating guns
+  - floating engine pieces
+  - headlights or details suspended in empty space
+  - attachments that stop just short of the body
+  - guns that merely pass/intersect through the hull without looking mounted
+  - cockpits that are not actually joined to the fuselage
+  - decorative pieces connected by impossible single points unless intentionally
+    designed that way
+
+Inspect every attachment from several angles. A connection that looks acceptable in
+one view may be visibly floating in another.
+
+
+9. CLOSED / COMPLETE GEOMETRY
+-----------------------------
+Where an object is meant to be solid, its visible ends should look intentionally
+closed.
+
+Avoid accidental open ends on:
+
+  - freighter hulls
+  - engine housings
+  - station bodies
+  - large structural modules
+
+If an opening is intentional, it should read clearly as a doorway, bay, aperture or
+engine mouth rather than as forgotten geometry.
+
+
+10. FIGHTERS
+------------
+Fighters should read quickly during combat.
+
+Priorities:
+
+  - strong silhouette at mid/far range
+  - obvious nose direction
+  - genuinely different side profiles between designs
+  - avoid making every fighter broad, fat or vertically deep
+  - attachments should enhance the base form rather than overwhelm it
+  - science-fiction character is preferred over literal atmospheric-aircraft anatomy
+
+The viewer's Current Fighter A and Current Fighter B are direct visual baselines from
+the game and should be used to judge scale/detail density, not as shapes to clone.
+
+Previous lessons:
+
+  - guns must be mounted, not floating or intersecting ambiguously
+  - engine cones should not become absurdly long
+  - cockpit geometry must be fully attached
+  - forward tips/protrusions should be intentional, not accidental spikes
+
+
+11. FREIGHTERS
+--------------
+Large freighters are primarily background/world-scale objects and should read as
+HUGE compared with fighters.
+
+Desired qualities:
+
+  - unmistakable large-scale silhouette
+  - fewer, larger structural decisions rather than fighter-like detail density
+  - coherent closed hulls
+  - strong long-distance readability
+
+Leviathan and Caravan were previously successful directions. Do not assume every
+freighter must resemble them, but use their sense of scale and coherent mass as a
+quality reference.
+
+
+12. SPACE STATIONS
+------------------
+Stations should not default to simple boxes.
+
+Desired qualities:
+
+  - stronger geometric identity and silhouette
+  - inspiration may come from Elite / No Man's Sky style spatial forms without
+    copying specific assets
+  - a docking/entry doorway may be present, but it should be VERY SMALL relative to
+    the station as a whole
+  - the doorway is initially sealed when required by gameplay
+  - the station should make the tiny doorway feel embedded in a massive structure
+
+Do not make the doorway dominate the station design.
+
+
+13. MODEL-BATCH WORKFLOW
+------------------------
+When generating a new audition batch:
+
+  1. Start from deliberately different silhouette concepts.
+  2. Build clean vertex/edge geometry first.
+  3. Add only embellishments that genuinely improve identity.
+  4. Ensure every embellishment is attached.
+  5. Add faces for hidden-line occlusion.
+  6. Validate JSON indices.
+  7. Audition front / side / top / three-quarter.
+  8. Audition Near / Mid / Far.
+  9. Rotate with hidden lines enabled and look specifically for bad occlusion.
+ 10. Reject near-duplicates before presenting the batch.
+
+Do not compensate for weak silhouettes by adding more small details.
+
+
+14. FUTURE MODEL REQUEST DEFAULT
+--------------------------------
+Unless Dave explicitly asks for a different format, future Starstrike 3D model work
+should be produced in the Ship Audition Viewer-compatible JSON format described here.
+
+For multiple models, prefer:
+
+  { "models": [ ... ] }
+
+with name, v, e and faces for each model.
+
+If the request is to integrate an approved model into the game, convert the approved
+v/e mesh and faces into the existing game mesh + meshFaces convention rather than
+redesigning it during integration.
+
+
+15. DO NOT FORGET
+-----------------
+The project aesthetic depends on restraint. The point is not to approximate modern
+filled 3D with lots of wire edges. The line model itself should be beautiful and
+recognisable.
+
+Strong silhouette > surface detail.
+Clean attachment > decorative clutter.
+Readable geometry > complexity.
+Original variation > stretched copies.

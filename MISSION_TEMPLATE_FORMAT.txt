@@ -1,0 +1,1167 @@
+AGENT X - DATA-DRIVEN MISSION TEMPLATE FORMAT
+===============================================
+
+PURPOSE
+-------
+
+The game should move away from individually coded missions.
+
+A mission should be assembled from reusable gameplay sections, objectives,
+encounter slots and faction presentation. The engine code implements the
+available section types and encounter behaviours once. Mission data chooses
+how those pieces are strung together.
+
+The contract explains WHY Agent X is there.
+The sections describe WHERE the player goes.
+The objective describes WHAT must be done.
+The encounter system describes WHAT HAPPENS ON THE WAY.
+The faction wrapper describes HOW THE JOB IS PRESENTED.
+
+A mission template is therefore data, not bespoke JavaScript.
+
+This is an arcade game, not a simulation or puzzle game. Mission data must not
+require searching, free exploration, hidden switches, route memorisation or
+open-ended navigation.
+
+
+CORE DESIGN RULES
+-----------------
+
+1. Reuse sections.
+   A station approach, forest run, asteroid field, tunnel, city approach,
+   surface run, xeno nest tunnel etc. should be implemented once and referenced
+   by mission data.
+
+2. Reuse objectives.
+   Deliver, retrieve, destroy, clear, survive, escort, intercept and reach are
+   objective types. They are not separate hand-coded missions.
+
+3. Encounters are independent of the contract.
+   A delivery may be quiet, attacked by pirates, interrupted by xenoforms,
+   blocked by debris, etc. The mission template exposes encounter slots and
+   encounter tables decide what happens.
+
+4. Faction text is a wrapper.
+   The same mechanical mission can be offered by Free Traders, QuickBite,
+   Helix, Red Jackal or another faction with different title, briefing,
+   correspondence, cargo and reward flavour.
+
+5. Scaling is declarative.
+   Level changes enemy count, enemy mix, durability, attack pressure, reward
+   bands and encounter weighting. It should not require a new mission version.
+
+6. No dead-end choices.
+   Route forks may create different immediate hazards, but all valid choices
+   continue the mission. The player is never expected to search for the correct
+   route.
+
+7. Keep the mission format finite.
+   Do not build a general scripting language. Add a new data field only when a
+   real reusable gameplay need exists.
+
+
+MISSION TEMPLATE: TOP LEVEL
+---------------------------
+
+Recommended JSON shape:
+
+{
+  "id": "station_delivery",
+  "version": 1,
+  "family": "delivery",
+  "minLevel": 1,
+  "maxLevel": null,
+
+  "board": {
+    "category": "delivery",
+    "weight": 1.0,
+    "maxPerBoard": 2
+  },
+
+  "allowedFactions": [
+    "free_traders",
+    "quickbite",
+    "red_jackal",
+    "helix"
+  ],
+
+  "presentation": "station_delivery",
+  "rewardProfile": "standard_delivery",
+  "cargoProfile": "general_cargo",
+
+  "encounterBudget": {
+    "maxMajorEncounters": 1,
+    "allowQuietRun": true
+  },
+
+  "sections": [
+    {
+      "type": "space_transit",
+      "encounterTable": "space_general"
+    },
+    {
+      "type": "station_approach",
+      "distance": "far",
+      "encounterTable": "station_approach"
+    },
+    {
+      "type": "station_pad",
+      "objective": {
+        "type": "deliver_cargo"
+      }
+    },
+    {
+      "type": "space_departure"
+    }
+  ]
+}
+
+The top-level template should contain no dialogue and no faction-specific
+storytelling unless the mission is genuinely unique/story content.
+
+
+STANDARD TOP-LEVEL FIELDS
+-------------------------
+
+id
+  Stable machine identifier.
+
+version
+  Increment if the data shape or mission behaviour changes in a way that old
+  generated contracts need to distinguish.
+
+family
+  Broad mechanical family. Examples:
+    delivery
+    pickup
+    combat
+    interception
+    escort
+    recovery
+    patrol
+    assault
+    courier
+
+minLevel / maxLevel
+  Availability band. maxLevel may be null.
+
+board
+  Controls how an eligible ordinary template is sampled onto the random contract
+  board. Current fields:
+
+    category
+      Broad board-composition category. Current core categories are `delivery`,
+      `combat` and `major`. This does not change gameplay; it prevents a refresh
+      from degenerating into a one-note list.
+
+    weight
+      Relative random-selection weight among otherwise eligible templates. A
+      higher number makes the template more common; zero disables random
+      selection without removing the template data.
+
+    maxPerBoard
+      Maximum copies of this template on one board. Ordinary templates currently
+      cap at two. Major contracts such as `deep_core` cap at one.
+
+    major
+      Optional presentation/semantic marker for unusually large contracts. It is
+      currently descriptive; rarity and duplication are still controlled by
+      `weight` and `maxPerBoard`.
+
+  Global board rules live in `AgentXMissionData.boardRules`. The current board
+  requires at least one `delivery` and one `combat` category whenever both are
+  eligible, then fills the remaining slots by weighted random selection. The
+  completed list is shuffled, so there are no category-specific board positions.
+
+allowedFactions
+  Factions allowed to wrap this template.
+
+factionWeights
+  Optional per-template relative weighting applied when choosing which allowed
+  faction wraps a generated contract. The normal reputation weighting still
+  applies and is multiplied by this value. Omit the field to preserve the
+  existing reputation-only behaviour.
+
+  Example:
+
+    factionWeights:{quickbite:6,jackals:5,trade:3,helix:2,security:1}
+
+presentation
+  Key into faction-specific title/briefing/correspondence pools.
+
+rewardProfile
+  Key into reusable reward rules.
+
+cargoProfile
+  Optional key into cargo-generation rules.
+
+encounterBudget
+  Global encounter limits for this mission.
+
+planetaryRequirements
+  Optional celestial constraints carried into the generated mission. These are
+  requirements, not presentation hints: the runtime must satisfy them when it
+  constructs the destination system. Current fields are:
+
+    landingBody
+      "planet" (default) or "moon". A moon destination makes the descent
+      autopilot target that moon rather than the parent planet.
+
+    landingColour
+      Required colour for a moon destination. Use the established moon palette
+      tokens only: green, yellow, cyan, magenta, blue, orange. When specified it
+      is exact, not a weighted preference.
+
+    moonCount
+      Optional {min,max} limits. Runtime clamps both to the project's hard maximum
+      of two moons. A moon destination always implies at least one moon.
+
+  Example:
+
+    "planetaryRequirements": {
+      "landingBody": "moon",
+      "landingColour": "green",
+      "moonCount": {"min": 1, "max": 2}
+    }
+
+  Deep-core/reactor strikes use exactly this requirement so the destructive
+  operation takes place on a remote green moon and the classic green vector
+  ground-grid language continues naturally after descent.
+
+sections
+  Ordered list of reusable gameplay sections.
+
+RANDOM VALUE CHOICES
+--------------------
+
+Any template value passed through the normal resolver may use a weighted
+one-time choice object:
+
+  {choices:['planet','moon'],weights:[65,35]}
+
+The choice is resolved when the contract is generated and the chosen value is
+stored in that mission. It is not rerolled during play. If weights are omitted,
+choices are equally weighted.
+
+This is suitable for real mission requirements such as a delivery that may land
+on either a planet or a moon while keeping the resulting contract deterministic.
+
+
+SECTION FORMAT
+--------------
+
+Each section is one reusable gameplay environment or transition.
+
+Example:
+
+{
+  "type": "forest_run",
+  "length": "medium",
+  "objective": {
+    "type": "reach_exit"
+  },
+  "encounterTable": "alien_forest",
+  "params": {
+    "traffic": "medium",
+    "hornets": true,
+    "larvaGuns": true
+  }
+}
+
+A section should normally have:
+
+type
+  Engine-owned section type.
+
+objective
+  Optional objective performed inside this section.
+
+encounterTable
+  Optional weighted encounter source.
+
+params
+  Section-specific tuning, using a controlled set of known parameters.
+
+onComplete
+  Usually omitted. Default is simply "advance to next section".
+  Use explicit transitions only for reusable special cases.
+
+
+INITIAL SECTION VOCABULARY
+--------------------------
+
+The engine should work toward a compact set such as:
+
+space_transit
+  Empty/open space transfer. May host encounters.
+
+space_combat
+  Open-space combat arena.
+
+combat_recovery
+  One-stage destroy-and-collect contract. Ordinary fighter combat runs first.
+  When the hostile target count reaches zero, a single delivery-style package is
+  created at a nearby fixed point in open space. A normal-size navigation diamond
+  marks it at long range; only inside the final approach range does that same marker
+  grow as distance closes. The player flies to the fixed point manually. At the
+  capture radius, autopilot stops the craft and smoothly turns/levels it so the package
+  is cleanly centred ahead; only then does the tractor animation begin. The section
+  completes only after recovery confirmation. A standalone terminal space mission then
+  uses the normal forward mission escape/zoom. This controller is intentionally reusable
+  later as the recovery part of a longer mission chain.
+
+  Current params:
+    target             hostile count
+    fighterHp          hostile durability
+    profile            fighter presentation/behaviour profile
+    recoveryLabel      narrative name of the recovered item
+    markerGrowRange    distance inside which the marker begins to enlarge
+    captureRadius      auto-stop/tractor capture radius
+    tractorSeconds     tractor animation duration
+
+asteroid_field
+  Asteroid navigation/combat/clearance.
+
+planet_descent
+  Existing automatic descent transition.
+
+surface_run
+  Open planetary surface flight.
+
+forest_run
+  Fast low-level alien forest corridor. Player does not choose speed and is not
+  given a lore explanation for why they cannot simply fly over it.
+
+city_approach
+  Existing city arrival/flying-car environment.
+
+city_room
+  Penthouse / pickup / delivery room sequence.
+
+station_approach
+  Distant approach to a station.
+
+station_pad
+  Station landing/pickup/delivery action.
+
+industrial_corridor
+  Existing square/industrial tunnel language.
+
+xeno_nest
+  Honeycomb-like hexagonal biological tunnels. Forward flight, arcade forks,
+  wall larvae, hornets and chambers. Never a maze.
+
+bunker_approach
+  Surface installation approach.
+
+reactor_run
+  Existing deep-core corridor/reactor route where needed.
+
+space_departure
+  Existing forward escape/zoom.
+
+surface_departure
+  Existing visible nose-up transition followed by zoom to space.
+
+
+OBJECTIVE VOCABULARY
+--------------------
+
+deliver_cargo
+  Move carried cargo to target.
+
+retrieve_cargo
+  Tractor/collect target cargo.
+
+clear_hostiles
+  Destroy required hostile group.
+
+destroy_targets
+  Destroy marked target count or specified target class.
+
+intercept_target
+  Find and engage a designated moving target.
+
+escort
+  Keep protected target alive until section completion.
+
+survive
+  Reach end of section while remaining alive.
+
+reach_exit
+  Navigation/obstacle section only.
+
+deploy_payload
+  Deliver toxin, bomb, beacon, probe or similar payload.
+
+recover_object
+  Retrieve valuable specimen, data module, xeno material, cargo etc.
+
+destroy_installation
+  Destroy clearly marked installation/core/objective.
+
+No objective type should imply "search until you happen to find it".
+
+
+ENCOUNTER SLOT FORMAT
+---------------------
+
+A section can expose an encounter table:
+
+{
+  "type": "station_approach",
+  "encounterTable": "station_approach"
+}
+
+The encounter table is separate data:
+
+{
+  "id": "station_approach",
+  "entries": [
+    { "encounter": "none",             "weight": 50 },
+    { "encounter": "pirate_blockade", "weight": 18 },
+    { "encounter": "rogue_drones",    "weight": 12 },
+    { "encounter": "xeno_swarm",      "weight": 12 },
+    { "encounter": "debris_hazard",   "weight": 8 }
+  ]
+}
+
+Weights can later be modified by:
+  player level
+  faction reputation
+  mission family
+  recent encounter history
+  rarity
+  difficulty
+
+"none" is always a real result where quiet runs are appropriate.
+
+
+ENCOUNTER RESULT RECORD
+-----------------------
+
+When an encounter occurs, save a compact result on the active mission:
+
+{
+  "id": "xeno_swarm",
+  "sectionIndex": 1,
+  "outcome": "cleared",
+  "severity": 2
+}
+
+This gives completion mail and rewards something factual to refer to.
+
+Routine mail should reconstruct text from:
+  mission template
+  faction presentation
+  contact
+  encounter result
+  reward result
+
+Do not store generated paragraphs where a compact reference is sufficient.
+
+
+SCALING FORMAT
+--------------
+
+Templates should describe scaling profiles, not hard-code per-level missions.
+
+Example:
+
+{
+  "enemyScale": {
+    "countBase": 3,
+    "countPerLevels": 3,
+    "countAdd": 1,
+    "hpProfile": "light",
+    "attackPressureProfile": "standard"
+  }
+}
+
+Interpretation example:
+  Level 1-3: 3 enemies
+  Level 4-6: 4 enemies
+  Level 7-9: 5 enemies
+
+Prefer scaling:
+  enemy count
+  enemy type mix
+  attack patterns
+  firing pressure
+  encounter composition
+  reward values
+
+Use raw HP inflation sparingly.
+
+
+FACTION PRESENTATION
+--------------------
+
+Mission mechanics and faction writing should be separate.
+
+A faction presentation pack may also provide `destinations[]`. When present, the
+contract generator chooses one destination label from that faction's list instead of
+using only the template-wide default. This is useful when one physical gameplay
+template can represent, for example, a fortified data centre, remote communications
+post, archive facility or relay station. The chosen destination is stored on the
+contract and is available to `{destination}` in board and mail text.
+
+Example presentation record:
+
+{
+  "id": "station_delivery",
+  "factions": {
+    "free_traders": {
+      "titles": [
+        "Relay Delivery",
+        "Priority Freight",
+        "Station Consignment"
+      ],
+      "briefings": [
+        "Carry the consignment to {destination}.",
+        "Deliver {cargo} to {destination}."
+      ]
+    },
+
+    "quickbite": {
+      "titles": [
+        "Hot Delivery",
+        "Order Run",
+        "Priority Order"
+      ],
+      "briefings": [
+        "Get the order to {destination}.",
+        "Customer paid already. Take it to {destination}."
+      ]
+    },
+
+    "red_jackal": {
+      "titles": [
+        "A Small Favour",
+        "Private Consignment",
+        "Discrete Delivery"
+      ],
+      "briefings": [
+        "A parcel requires discreet conveyance to {destination}.",
+        "Deliver the consignment. Questions would be superfluous."
+      ]
+    }
+  }
+}
+
+Named contacts are for personal correspondence, not every routine contract.
+
+Canonical main contacts:
+  VOX                          Mara Venn
+  Free Traders Compact         Corvella Pallis
+  Orbital Security Directorate Kudo Shang
+  Red Jackal Combine           Cassian Erivan-Snade
+  Helix Industrial Group       Navira Derris
+  QuickBite Orbital            Nyxo Malloc
+
+
+PERSONAL MAIL RULE
+------------------
+
+Routine completion:
+  system-generated faction/organisation mail.
+
+Failed or abandoned accepted contract:
+  guaranteed personal mail from that faction's principal contact.
+  Failure should sound disappointed/angry about performance.
+  Abandonment should normally be harsher because X chose to leave the job.
+  These are not probabilistic follow-ups.
+
+Personal success follow-up is reserved for:
+  unusual encounter
+  exceptional performance
+  important discovery
+  large discretionary bonus
+  reputation milestone
+  mission-chain progression
+  story content
+
+Corvella Pallis
+  Deliberately unprofessional, personal, overfamiliar and openly flirtatious.
+  "Babe" and "sweetie" are natural, but do not treat them as a substitute for
+  character voice: she can shamelessly admire X's big, dangerous drone, make
+  playful innuendo about guns/engines/power, and write contract adverts like
+  personal invitations rather than corporate copy. Success can be exuberantly
+  admiring; failure turns the same intimacy into teasing disappointment. She is
+  competent underneath it and the task must stay clear. Never gender Agent X.
+
+Kudo Shang
+  Concise, professional, dry. Praise is rare and therefore meaningful.
+
+Cassian Erivan-Snade
+  Modern English, florid and conspicuously educated. Literary, classical and
+  historical references. Likes people to know he knows Latin. May suddenly
+  collide high-register language with fake profanity.
+
+Navira Derris
+  Cerebral, analytical, interested in technology, specimens and anomalies.
+
+Nyxo Malloc
+  Casual, deadpan, "dude", "awesome", low-key fatalism. He is the deliberate
+  profanity-frequency exception and can curse heavily in a Clerks-style rant.
+  QuickBite is NOT restricted to low-level missions.
+  Example attitude:
+    "Pirate dudes didn't pay for their pizza. They knew the risks."
+
+
+TEMPLATE PRESENTATION MAIL FIELDS
+---------------------------------
+
+Each faction wrapper should provide:
+  completionSubjects / completionBodies
+    routine organisation/system success confirmation.
+
+  failureMail
+    contactId + subjects + bodies for guaranteed personal reaction when the
+    accepted mission fails.
+
+  abandonMail
+    contactId + subjects + bodies for guaranteed personal reaction when X
+    voluntarily abandons the accepted mission.
+
+  personalFollowUp
+    optional success-only named-contact reaction for noteworthy completed runs.
+
+Failure/abandonment text belongs in the presentation wrapper because the same
+mechanical failure should feel different for Free Traders, OSD, Red Jackal,
+Helix and QuickBite.
+
+
+EXAMPLE: SAME TEMPLATE, DIFFERENT FACTIONS
+------------------------------------------
+
+Mechanical template:
+  pickup cargo in city
+  launch
+  space transit
+  possible encounter
+  station approach
+  deliver cargo
+  depart
+
+Free Traders:
+  commercial freight transfer.
+
+QuickBite:
+  large catering order, emergency food shipment, unpaid order recovery etc.
+
+Red Jackal:
+  sealed private consignment.
+
+Helix:
+  laboratory equipment / specimen transfer.
+
+The engine sees the same section list.
+The player sees different jobs.
+
+
+EXAMPLE: XENO NEST RECOVERY
+---------------------------
+
+{
+  "id": "xeno_nest_recovery",
+  "family": "recovery",
+  "minLevel": 5,
+  "allowedFactions": ["helix", "red_jackal", "orbital_security"],
+
+  "presentation": "xeno_nest_recovery",
+  "rewardProfile": "high_risk_recovery",
+
+  "encounterBudget": {
+    "maxMajorEncounters": 2,
+    "allowQuietRun": false
+  },
+
+  "sections": [
+    {
+      "type": "space_transit",
+      "encounterTable": "xeno_region"
+    },
+    {
+      "type": "space_combat",
+      "objective": {
+        "type": "clear_hostiles",
+        "enemySet": "xeno_outer_swarm"
+      }
+    },
+    {
+      "type": "xeno_nest",
+      "length": "long",
+      "objective": {
+        "type": "recover_object",
+        "objectProfile": "valuable_xeno_specimen"
+      },
+      "params": {
+        "forks": 2,
+        "hornets": true,
+        "larvaGuns": true
+      }
+    },
+    {
+      "type": "xeno_nest",
+      "direction": "escape",
+      "length": "medium",
+      "objective": {
+        "type": "reach_exit"
+      },
+      "params": {
+        "aggression": "high"
+      }
+    },
+    {
+      "type": "space_departure"
+    }
+  ]
+}
+
+There is no queen battle.
+There is no searching.
+The valuable item is clearly presented at the destination chamber.
+
+
+EXAMPLE: FOREST PURSUIT
+-----------------------
+
+{
+  "id": "forest_intercept",
+  "family": "interception",
+  "minLevel": 3,
+  "allowedFactions": [
+    "orbital_security",
+    "red_jackal",
+    "free_traders",
+    "quickbite"
+  ],
+
+  "presentation": "forest_intercept",
+  "rewardProfile": "combat_medium",
+
+  "sections": [
+    {
+      "type": "planet_descent"
+    },
+    {
+      "type": "forest_run",
+      "objective": {
+        "type": "intercept_target"
+      },
+      "encounterTable": "alien_forest",
+      "params": {
+        "hornets": true,
+        "larvaGuns": true,
+        "traffic": "medium",
+        "forks": 1
+      }
+    },
+    {
+      "type": "surface_departure"
+    }
+  ]
+}
+
+The player flies a committed low-level run. No explanation is given for why the
+drone does not fly over the forest.
+
+
+IMPLEMENTATION ORDER
+--------------------
+
+Do not attempt to convert every existing mission at once.
+
+Phase 1
+  Define the JSON schema in ordinary JavaScript/JSON.
+  Build a MissionRunner that can execute a small section vocabulary.
+  Convert one simple existing delivery mission.
+
+Phase 2
+  Move encounter selection into separate encounter tables.
+  Convert station delivery and one combat mission.
+
+Phase 3
+  Add faction presentation wrappers and generated contract descriptions.
+  Generate several contracts from the same mechanical templates.
+
+Phase 4
+  Convert more environments: asteroid, surface, forest, corridor.
+
+Phase 5
+  Add xeno nest section once its hex tunnel environment exists.
+
+During migration, bespoke story missions may continue to use custom code where
+necessary. The goal is that ordinary procedural contracts no longer require a
+new JavaScript mission implementation.
+
+
+SUCCESS CRITERION
+-----------------
+
+Adding a normal new contract should eventually mean:
+
+1. Add or reuse a mission-template data record.
+2. Add faction presentation text if required.
+3. Add/reuse encounter tables.
+4. No new mission-specific engine code.
+
+New JavaScript should be required only when adding a genuinely new gameplay
+section, objective type or encounter mechanic.
+
+PRESENTATION PACK REQUIREMENT
+-----------------------------
+
+A procedural mission template is not ready for the contract board merely
+because its section chain exists.
+
+Each allowed faction requires a presentation pack containing at minimum:
+
+  board.titles[]
+  board.descriptions[]
+  routineComplete.subjects[]
+  routineComplete.bodies[]
+
+It may additionally contain:
+
+  routineFailure
+  cargoLabels
+  targetLabels
+  encounterAcknowledgements
+  personalFollowUps
+  discretionaryRewardText
+
+GENERIC FACTION REWARD MAIL
+---------------------------
+
+Discretionary reward mail that is not specific to one mission family still belongs
+with mission presentation data, not as generic prose inside campaign logic. The live
+JS data exposes:
+
+  AgentXMissionData.rewardMail[factionId]
+
+Each faction entry supplies its canonical `contactId` plus character-authored packs
+for the generic reward mechanisms currently supported by campaign code:
+
+  credits
+    subjects[]
+    bodies[]          // array of body variants; a variant may itself be an array of paragraphs
+
+  item
+    subjects[]
+    bodies[]
+
+  discount
+    subjects[]
+    bodies[]
+
+Supported placeholders currently include `{amount}`, `{item}`, `{percent}` and
+`{faction}` as appropriate. The reward transaction remains generic and system-owned;
+the email is personal and must be reconstructed in the canonical contact's voice.
+
+Presentation packs are keyed by mission presentation ID + faction ID and are
+kept separate from mechanical mission data.
+
+See MISSION_PRESENTATION_PACKS.txt for canonical examples and tone rules.
+
+FIRST LIVE TEMPLATE - ASTEROID DELIVERY
+---------------------------------------
+
+The first live data-driven ordinary contract is now `asteroid_delivery`.
+
+Current purpose:
+  prove that one mechanical mission can be generated from data, scaled by level,
+  advertised differently by faction, and completed with faction-specific routine
+  mail without creating a new bespoke mission implementation.
+
+Current behaviour:
+  sampled onto the ordinary contract board from template weight/category data
+  client faction is chosen when the board is generated and then saved with the contract
+  allowed clients: Free Traders, Orbital Security, Red Jackal, Helix, QuickBite
+  faction presentation chooses title, cargo wording, board description and mail copy
+  risk/route length/reward scale from the template data
+  numeric parameter formula objects may use base/perRisk/random plus optional min/max/round
+  QuickBite uses the food-box cargo presentation
+  other clients use a generic equipment/consignment case
+  runtime section is `asteroid_mine_delivery`
+  legacy saved `courier_food` stages remain supported by the same controller
+
+Routine completion mail is organisation/system generated.
+A named contact may send a separate personal follow-up, or a discretionary reward
+mail may come from that contact. The main recurring contacts are:
+  Free Traders Compact          Corvella Pallis
+  Orbital Security Directorate  Kudo Shang
+  Red Jackal Combine            Cassian Erivan-Snade
+  Helix Industrial Group        Navira Derris
+  QuickBite Orbital             Nyxo Malloc
+
+The live template data is in:
+  mission-templates.js
+
+Do not duplicate the asteroid-mine flight sequence for each faction. Future
+mission families should follow the same separation between mechanical template,
+faction presentation and reusable runtime section.
+
+
+SECOND LIVE TEMPLATE - STATION DELIVERY
+----------------------------------------
+
+The second live template is `station_delivery`. It now participates in the same
+weighted random board as every other ordinary template. It composes ten existing
+reusable sections rather than introducing mission-specific
+engine code. Its family remains `city_station_delivery` for compatibility with existing
+board/state checks.
+
+Section chain:
+  planet_descent
+  surface_destination_approach
+  urban_ground_pickup
+  urban_exit
+  planet_launch
+  space_transit
+  station_xeno_arrival
+  station_pad_approach
+  station_pad_delivery
+  station_pad_departure
+
+The arrival section currently implements a two-result station encounter table in the
+existing gameplay system: no incident or `station_xeno`. The template supplies the
+encounter chance and hostile count scaling.
+
+Presentation packs may now include:
+
+  encounterAcknowledgements: {
+    station_xeno: [ ...routine organisation acknowledgement lines... ]
+  }
+
+  personalFollowUp: {
+    chance: 0.18,
+    minRisk: 3,
+    encounterChance: 0.50,
+    encounterMinRisk: 1,
+    bodies: [ ...ordinary personal success lines... ],
+    encounterBodies: {
+      station_xeno: [ ...encounter-specific contact lines... ]
+    }
+  }
+
+When an encounter is recorded, routine template completion mail is promoted from low
+to normal priority and includes the appropriate acknowledgement. The named-contact
+follow-up may use an encounter-specific body and a higher chance.
+
+Failure and abandonment continue to use `failureMail` / `abandonMail` and are guaranteed
+personal reactions.
+
+CIVILIAN TRAFFIC CONDUCT IN TEMPLATED MISSIONS
+------------------------------------------------
+
+A template that routes the player through active civilian traffic must explicitly declare
+how civilian incidents affect the contract. Civilian vehicles are environmental actors,
+not neutral target dressing that can be shot without consequence.
+
+The live `station_delivery` template now defines `civilianTrafficPolicy`.
+
+Current policy model:
+  collisionWeight: 1
+  assaultWeight:   2
+
+A deliberate laser hit on civilian traffic is therefore more serious than an accidental
+collision. Severity selects a settlement tier controlling:
+  payMultiplier
+  repMultiplier
+  allowGift
+  failureRepPenalty
+
+Presentation packs for such a template should define `civilianTrafficMail` with separate
+copy for deliberate assault and non-shooting traffic incidents. A completed mission with
+civilian misconduct does NOT also receive the normal congratulatory completion/gift path.
+Instead, the canonical named contact sends a guaranteed conduct response and the reduced
+settlement is shown in the debrief.
+
+If the mission later fails or is abandoned after a civilian incident, the ordinary
+failure/abandonment message remains the main mail and gains an in-character civilian
+conduct addendum. Civilian misconduct therefore remains part of the mission outcome even
+when the advertised objective was not completed.
+
+Do not treat every contact alike:
+  Corvella stays personal and flirtatious even while genuinely angry; failure often turns her usual admiration into teasing disappointment. Never gender X.
+  Kudo treats deliberate civilian fire as an unacceptable conduct breach.
+  Cassian treats it as vulgar, conspicuous incompetence that destroys discretion.
+  Navira describes it as a fundamental target-classification/operator error.
+  Nyxo swears heavily, but the Clerks-style “they knew the risks” contractor argument
+  explicitly does NOT excuse shooting ordinary commuters.
+
+LIVE TEMPLATE: URBAN PENTHOUSE DELIVERY (2026-09-07)
+---------------------------------------------------
+`penthouse_delivery` is the third live data-driven mission template after
+`asteroid_delivery` and `station_delivery`.
+
+Composition:
+  optional template encounter slot
+  -> planet_descent
+  -> surface_destination_approach
+  -> urban_penthouse_delivery
+  -> canonical surface pitch-up / departure
+
+The template encounter slot is selected from faction-weighted data when the
+contract is generated. `none` is a real result. Current penthouse encounter IDs:
+  pirate_ambush
+  rogue_drones
+  xeno_swarm
+  customs_intercept
+  none
+
+The contract board does not reveal the selected encounter. The encounter is
+recorded on the active mission only after the encounter stage is actually
+cleared, so success correspondence can truthfully refer to it.
+
+Current weighting principle:
+  Free Traders: pirates most likely.
+  OSD: rogue drones most likely, pirates secondary.
+  Red Jackal: customs most likely.
+  Helix: rogue drones / xenos most likely.
+  QuickBite: xenos strongly favoured; pirates secondary.
+  Every faction retains a smaller unhindered-run chance.
+
+New generic fighter profiles:
+  pirate  -> normal fighter craft, pirate-specific warning.
+  rogue   -> drone meshes, rogue-drone warning.
+  xeno    -> existing xeno meshes and existing xeno speech sequence.
+  customs -> existing customs-drone implementation and speech.
+
+The urban penthouse template uses the same civilian-traffic settlement policy
+as the live station-delivery template. Deliberate civilian fire is worse than
+collision, can remove all payment/positive reputation, suppresses gifts, and
+must be acknowledged in personal correspondence.
+
+LIVE TEMPLATE: HOSTILE-GROUP DESTRUCTION (2026-09-07)
+------------------------------------------------------
+`fighters` is the fourth live ordinary mission template. It is intentionally the simplest
+mechanical contract:
+
+  hostile fighter group -> canonical mission-complete departure
+
+The contract board does NOT advertise an exact kill quota. The real target count and hull
+strength are section parameters generated from risk and remain implementation data.
+
+This template establishes optional faction presentation `briefs`. A brief is authored data
+that may provide:
+
+  target      player-facing description of the hostile group
+  profile     fighter presentation profile (`standard`, `pirate`, `rogue`, `xeno`)
+  motive      why this client wants that group removed
+  situation   why action is required now
+  titles      board titles suitable for this exact target relationship
+
+`makeTemplateContract` selects one brief only from the chosen faction's pack and exposes
+`{target}`, `{motive}`, `{situation}` and `$profile` to the template data. This avoids a
+global enemy list in which every faction inexplicably has a grievance with every group.
+The selected target/motive/situation are also stored on the generated contract so routine,
+personal, failed and abandoned mail can refer to the actual job.
+
+The live fighter template also permits optional reward scaling from generated fighter work
+(target count and fighter HP). This preserves the useful principle that a more dangerous
+hidden group tends to produce a larger offer without putting a game-like kill count in the
+advertisement.
+
+Current backdrop remains the standard open-space scene. Visual combat-backdrop variation is
+a separate future proposal and must not be folded into the basic combat template yet.
+
+
+LIVE TEMPLATE: MARKED ASTEROID CLEARANCE (2026-09-07)
+-----------------------------------------------------
+`asteroids` is the fifth live ordinary mission template.
+
+The fiction rule is deliberately simple: the asteroid field contains many ordinary rocks,
+but tracking has already identified a finite subset that matters to this contract. Only
+those mission targets are HUD-marked and only destruction of those marked bodies advances
+the clearance objective. Shooting arbitrary background rocks may destroy them, but does
+not satisfy the contract.
+
+Template section shape:
+  {type:'asteroids', markedTargets:true, target:<risk-scaled count>}
+
+`markedTargets:true` tells the asteroid controller to maintain a fixed mission-target set
+separately from ordinary field traffic. The marked set is bracketed only while in sensible
+sensor/view range; do not use giant floating quest icons or recolour the asteroid itself as
+a special material. The rock remains visually an ordinary asteroid and the vector HUD is
+what identifies it.
+
+Contract text should not say "destroy N random asteroids". It should explain the client
+reason for the identified hazard set and use wording such as "destroy the marked asteroids",
+"clear the tagged hazards" or "remove the designated bodies". The exact target count remains
+runtime objective data rather than the main fiction.
+
+Reward calculation for a template may now optionally use `payPerAsteroidWork` and
+`xpPerAsteroidWork`, based on the generated asteroid target count.
+
+New speech asset for marked asteroid clearance:
+  `hazardtargetsidentified.mp3` = "Hazard targets identified."
+
+The legacy simulator asteroid lesson remains separate and continues to use its teaching
+speech and objective behaviour.
+
+ASTEROID CLEARANCE MIGRATION / DENSITY NOTE (2026-09-07)
+---------------------------------------------------------
+Once a procedural family has a live template, cached contract-board entries for that family
+must not survive in the older hard-coded form. Board validation therefore checks every
+contract whose family now maps to a template. Board schema version 2 also forces the older
+fixed-slot board population to regenerate under the weighted template selector.
+
+Marked hazards must remain a minority of the visible field. The controller circulates only
+2-4 marked bodies at once (depending on the total contract size); the rest of the roughly
+20-rock visual field remains ordinary unmarked asteroid traffic. As marked bodies are
+destroyed or leave sensor coverage, additional pre-tracked hazards can enter circulation.
+The ordinary asteroid-clearance target count is deliberately modest (roughly 6-14) so the
+fiction remains a specific hazard list rather than "shoot most rocks you see".
+
+The old procedural `combo` family (asteroid clearance immediately followed by fighter combat)
+is no longer generated on the ordinary contract board. Combined clearance/combat work is
+parked until it is deliberately designed as its own template. A contract presented as plain
+asteroid clearance must finish after the marked hazards and perform the canonical departure.
+
+RANDOM CONTRACT BOARD (2026-09-08)
+----------------------------------
+The ordinary mission board no longer assigns mission families to fixed slot numbers.
+Every visible slot is now filled from the set of templates eligible at the player's
+current level. Broker Network still changes only the number of visible opportunities
+(6 -> 7); it does not own a special mission family.
+
+Current selection rules:
+  * each template supplies `board.category`, `board.weight` and `board.maxPerBoard`
+  * the board always contains at least one `delivery` and one `combat` contract when
+    both categories are available
+  * ordinary templates may appear twice at most
+  * `deep_core` is a rare major contract and may appear only once
+  * the final board order is shuffled, so no slot has a mechanical identity
+  * Refresh retries a few times if it rolled the same template mix as the previous
+    board, so a refresh normally changes the kinds of work being offered
+  * completing/failing/abandoning a normal contract replaces only that entry using
+    the same weighted selector while preserving the board's core category coverage
+
+Current relative weights are intentionally tuneable data, not campaign logic:
+  asteroid_delivery     1.15
+  station_delivery      0.85
+  penthouse_delivery    0.85
+  asteroids             1.15
+  fighters              1.15
+  deep_core             0.15
+
+At level 4+, that makes Deep Core genuinely occasional rather than occupying a fixed
+slot. Its one-per-board cap and low weight preserve the sense that it is a major strike.
+
+
+LIVE TEMPLATE: DEEP CORE / REACTOR STRIKE (2026-09-08)
+------------------------------------------------------
+`deep_core` is the sixth live ordinary template and is level-4+. It is mechanically a
+major assault rather than a routine combat quota: orbital defenders -> moon descent ->
+fortified surface/reactor strike. The gameplay implementation remains bespoke, while
+the campaign wrapper, faction presentation, rewards and celestial requirements are
+data-driven.
+
+Its `planetaryRequirements` force the landing body to be a green moon, with one or two
+moons in the parent system. The green destination is exact rather than merely preferred
+so the established classic green vector ground-grid language carries into the surface
+section.
+

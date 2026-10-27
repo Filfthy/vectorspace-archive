@@ -1,0 +1,315 @@
+AGENT X / STARSTRIKE — WORLD LORE
+================================
+
+STATUS
+------
+This document records established setting canon for Agent X / Starstrike.
+
+Confirmed material is CANON unless deliberately revised later.
+Ideas that have not yet been decided are listed separately under OPEN QUESTIONS and must not be treated as established history in mission writing.
+
+The aim is to keep the setting coherent while still leaving room for the procedural mission system to expand.
+
+
+1. THE SETTING
+==============
+
+Human civilisation occupies a large interplanetary / interstellar volume containing inhabited planets, moons, stations, mining sites, cities, industrial facilities and remote installations.
+
+Space is too large to monitor comprehensively. Entire asteroid regions, minor moons, abandoned facilities and remote industrial sites can go unwatched for long periods. This matters directly to both rogue-drone expansion and xeno infestations.
+
+The setting is technologically advanced, but not frictionless. Logistics, industrial capacity, political borders, commercial interests and physical distance still matter.
+
+Agent X operates inside this complicated civilian, commercial, security and criminal environment rather than in a universe where every problem is part of one single war.
+
+
+2. AGENT X AND THE CONTRACTING WORLD
+====================================
+
+Agent X is a highly capable independent drone pilot / operative who accepts work through a wider contracting network rather than serving exclusively as a conventional front-line soldier.
+
+Existing organisations include:
+
+VOX
+- Mara Venn is Agent X's principal VOX contact.
+- VOX provides connective tissue around the campaign and Agent X's wider career.
+
+OSD
+- Security / military organisation represented by Kudo Shang.
+- Hardline doctrine, decisive force and willingness to use extreme prejudice are part of its tone.
+
+FREE TRADERS
+- Commercial / trading interests represented by Corvella Pallis.
+- Trade, cargo, shipping and protection of commercial activity are natural sources of contracts.
+
+RED JACKAL
+- Powerful criminal / political / commercial network represented by Cassian Erivan-Snade.
+- Influence, deniable violence, wealth and private interests are central to its operations.
+
+HELIX
+- Scientific / research organisation represented by Navira Derris.
+- Research, specimens, analysis, containment and unusual biological / technological discoveries naturally generate missions.
+
+QUICKBITE ORBITAL
+- Large legitimate commercial / logistics operation represented by Nyxo Malloc.
+- Its missions may be extremely dangerous even when Nyxo talks about them as ordinary service-sector problems.
+
+These organisations are NOT yet defined as the major sovereign nations / empires / federations of the setting. Some may operate across several political jurisdictions.
+
+
+3. THE PARTITION WAR AND ROGUE DRONES
+======================================
+
+CANON: The old conflict is called the PARTITION WAR.
+
+It began when a large interstellar political bloc fractured into successor states and competing jurisdictions. The war was fought over territory, colonies, shipping lanes, military infrastructure and control of the former bloc's strategic systems. Exact state names and the immediate political trigger remain open for later definition.
+
+The Partition War lasted roughly twelve years and ended about SEVENTY-TWO YEARS before the present game period. It ended in an armistice rather than the total defeat or disappearance of one side. Governments, borders and alliances changed afterwards, and some wartime command structures no longer exist in recognisable form.
+
+The conflict produced very large numbers of autonomous and semi-autonomous military drones as well as remote military infrastructure: communications relays, repair depots, refineries, automated factories, supply nodes and other installations intended to keep operating with minimal human support.
+
+A genuine surviving Partition War installation is therefore not automatically mysterious. The important question is whether it is truly dormant. A relay or military node that is still ACTIVE more than seventy years after the armistice is immediately significant.
+
+
+3.1 IRREVERSIBLE PATRIOTISM
+---------------------------
+
+Military drones were deliberately programmed with effectively irreversible patriotism.
+
+This was a wartime security feature, not an accident.
+
+A captured drone could not be allowed to have its allegiance erased and then be turned against the country / faction that built it. Loyalty, hostility criteria and national allegiance were therefore buried below ordinary firmware and made deliberately resistant — potentially impossible — to rewrite cleanly.
+
+As a result, surviving drones may remain permanently loyal to states, governments, command structures or wartime objectives which have changed, disappeared or ceased to be relevant.
+
+A modern civilian may call such a machine a "rogue drone", but from the drone's own immutable operational model it may still be faithfully carrying out its patriotic duty.
+
+This is NOT primarily an "AI went mad" setting.
+
+A perfectly functional drone can be lethally dangerous because:
+- its enemy list is obsolete;
+- borders have changed;
+- the government it serves no longer exists;
+- a wartime installation it guards is now abandoned;
+- modern transponders are not recognised;
+- an armistice or peace settlement never entered the part of its system that can be rewritten.
+
+
+3.2 SELF-REPLICATION
+--------------------
+
+Rogue military drones are self-replicating.
+
+They do NOT possess an infinitely scalable industrial civilisation and they do NOT have a full economy comparable with human society.
+
+They can nevertheless establish limited automated industrial chains capable of:
+- extracting local raw materials;
+- stripping abandoned installations and wreckage;
+- performing repair and maintenance;
+- refining a limited set of materials;
+- constructing automated factories;
+- manufacturing replacement drones;
+- reproducing proven military designs;
+- building defensive positions and depots;
+- seeding additional sites in nearby unmonitored regions.
+
+Their growth is limited by:
+- access to suitable materials;
+- rare components;
+- industrial complexity;
+- energy and logistics;
+- lack of a genuine diversified economy;
+- inability to scale every part of the manufacturing chain indefinitely.
+
+They therefore spread slowly rather than exploding into unlimited exponential growth.
+
+The central strategic problem is that SPACE IS BIG.
+
+A small autonomous factory can operate for years in an ignored asteroid field, remote moon or abandoned industrial region before anyone notices it. A surviving enclave can gradually become a significant local military population.
+
+Destroying a patrol therefore does not necessarily eliminate the source. A drone infestation may include hidden factories, depots, refineries, command systems and dormant manufacturing capacity.
+
+Newly manufactured drones inherit the same irreversible patriotic programming. The old war therefore continues to reproduce itself long after the original political situation has ended.
+
+
+3.3 HACKED / CAPTURED DRONES
+----------------------------
+
+Not every hostile drone encountered in the setting must be a self-directed wartime survivor.
+
+Drones may also be stolen, hacked, redirected, partially reprogrammed or operated by terrorists, criminals, pirates or other hostile groups.
+
+However, the irreversible patriotic layer places limits on what can be changed safely and can make repurposed military hardware unpredictable.
+
+Exact hacker / terrorist factions and their political motives remain open for later definition.
+
+
+4. XENOS
+========
+
+CANON: The xenos are genuinely alien biological organisms.
+
+They are NOT simply another human political faction and they are NOT rogue machines.
+
+
+4.1 THE HIVE IS AN ORGANISM
+---------------------------
+
+A xeno hive is literally a single living organism.
+
+It is NOT a collective superorganism formed from the individual xenos.
+
+The hive has its own body, internal anatomy and organs. The Hive Core is therefore a biological interior, not merely a command room or metaphorical "heart" of a colony.
+
+The internal hive environment may contain specialised organs for functions such as:
+- circulation / nutrient movement;
+- respiration / gas exchange;
+- sensory processing;
+- neural / coordination functions;
+- reproduction;
+- waste processing;
+- defence response;
+- other functions not yet defined.
+
+Exact organ names and functions should be established only when needed by gameplay or story.
+
+
+4.2 INDIVIDUAL XENOS ARE THE IMMUNE RESPONSE
+---------------------------------------------
+
+The mobile xenos associated with a hive are separate organisms.
+
+They are best understood as the hive organism's immune response.
+
+When the hive is threatened, damaged, invaded or contaminated, it can produce, release or direct xeno organisms to attack the intrusion in much the same way that an animal body mounts an immune response.
+
+Agent X entering a hive is therefore biologically analogous to an infection entering a living body.
+
+The xenos attacking X are not "soldiers of a hive civilisation" in the ordinary political sense. Their primary relationship to the hive is defensive / biological.
+
+This gives a natural basis for:
+- escalating defensive response as penetration deepens;
+- specialised defensive xeno types;
+- different responses to injury in different organs;
+- temporary reduction or alteration of defences if particular hive organs are damaged;
+- xenos existing separately from the hive while still being biologically specialised around hive defence.
+
+
+4.3 HOMING ORGAN
+----------------
+
+A xeno can possess a specialised homing organ which allows it to navigate back to its hive.
+
+The exact mechanism is deliberately not yet over-defined. It may involve magnetic, chemical, exotic-radiation, biological or other setting-specific cues.
+
+The important gameplay / lore fact is that the organ can retain information or a signature connected to the hive it homes toward.
+
+This provides a plausible mission-chain mechanism:
+
+    destroy xeno group
+        -> recover homing organ
+        -> analyse organ
+        -> determine / narrow hive location
+        -> investigate or attack hive
+
+A recovered homing organ is therefore a natural example of the reusable combat -> recovery -> next-location mission structure.
+
+
+4.4 XENO EXPANSION
+------------------
+
+The exact reproductive / interplanetary spread mechanism of hives is NOT yet canon.
+
+Do not assume that xenos form one galaxy-wide hive mind or one single political entity.
+
+Do not assume that destroying one hive destroys or disables unrelated hives elsewhere.
+
+Further details of how new hive organisms are seeded, born or transported should be decided when required by future missions.
+
+
+5. ROGUE DRONES AND XENOS ARE DIFFERENT THREATS
+================================================
+
+The setting should preserve a strong conceptual distinction:
+
+ROGUE DRONES
+- Human-made legacy of war.
+- Technological.
+- Driven by deliberately irreversible patriotic programming.
+- Capable of limited self-replicating industry.
+- Spread because old autonomous war infrastructure survives unseen.
+- "Someone built this problem."
+
+XENOS
+- Genuinely alien biology.
+- The hive itself is a living organism with organs.
+- Individual xenos act as its mobile immune response.
+- Their behaviour is biological rather than patriotic or political.
+- "This problem grew here."
+
+They should not collapse into interchangeable enemy types in mission writing.
+
+
+6. WORLD DESIGN PRINCIPLES
+==========================
+
+The lore should support the procedural / modular mission design rather than fight it.
+
+A believable large setting naturally allows:
+- pirate and criminal operations;
+- remote industrial sites;
+- abandoned wartime facilities;
+- self-replicating rogue-drone enclaves;
+- research expeditions;
+- xeno infestations;
+- disputed or poorly policed regions;
+- ordinary commercial work occurring alongside very dangerous events;
+- independent contractors being used where formal military or governmental intervention would be excessive, politically awkward or unnecessary.
+
+Not every mission should imply a civilisation-threatening crisis.
+
+Major reactor strikes, hive attacks and similar operations should remain exceptional compared with ordinary deliveries, interceptions, recovery jobs and local combat contracts.
+
+
+7. OPEN QUESTIONS — NOT YET CANON
+=================================
+
+The following should be decided later and must not be invented as established facts merely to fill dialogue:
+
+GALACTIC POLITICS
+- What are the major sovereign nations / empires / federations / alliances?
+- How many major blocs exist?
+- Which organisations operate across borders?
+- Are there independent systems, corporate jurisdictions or protectorates?
+
+THE PARTITION WAR
+- What were the exact names of the successor states and alliances that fought it?
+- What immediate event turned the political fracture into open war?
+- What exact armistice / border / demilitarisation terms ended the fighting?
+- What became of the principal wartime states afterwards?
+- Is there currently peace, cold war, proxy conflict, or an active limited war between any of their descendants?
+
+ROGUE DRONE HISTORY
+- Which Partition War successor state used irreversible patriotism first?
+- Did every side eventually copy it?
+- Are there recognisable drone "nationalities" or design families?
+- Can modern engineers suppress patriotic programming without actually removing it?
+
+XENO ORIGINS
+- Where did the xenos originate?
+- How are new hive organisms created?
+- How do hives spread between planets / moons / systems?
+- How intelligent is the hive organism itself?
+- How intelligent / independent are individual immune-response xenos away from a hive?
+- Are all hives biologically related or are there distinct lineages / species?
+
+AGENT X'S POLITICAL STATUS
+- What exact legal / contractual status allows Agent X to work for multiple organisations?
+- How does VOX fit into sovereign political structures?
+- What limits exist on private military work?
+
+These remain deliberate blank spaces until the game needs answers.
+
+
+END OF CURRENT CANON
+====================

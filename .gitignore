@@ -1,0 +1,10 @@
+# Working material that isn't part of the game
+Claude outputs/
+voices unprocessed/
+*.zip
+
+# Editor / OS
+.vscode/
+Thumbs.db
+desktop.ini
+.DS_Store
